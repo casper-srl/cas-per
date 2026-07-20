@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+---
+
+<BaseLayout title="Soluzioni per imprese funebri | Cas-Per">
+  <div class="glass-bg-blobs" aria-hidden="true">
+    <div class="blob-circle blob-cyan" style="top: 10%; right: 10%; width: 400px; height: 400px; opacity: 0.15;"></div>
+    <div class="blob-circle blob-mauve" style="top: 50%; left: 5%; width: 320px; height: 320px; opacity: 0.12;"></div>
+    <div class="blob-circle blob-powder" style="bottom: 10%; right: 5%; width: 360px; height: 360px; opacity: 0.15;"></div>
+  </div>
+
+  <PageHero eyebrow="Soluzioni" title="Un ecosistema digitale su misura per la tua impresa." text="Piattaforma, comunicazione, sito, app, streaming e monitor: strumenti pensati per semplificare il lavoro e migliorare il servizio alle famiglie." />
+
+  <section class="section">
+    <div class="section-inner card-grid three">
+      <ServiceCard title="Annunci e cordogli" text="Gestione dei necrologi online, validazione dei messaggi e libretto dei cordogli per la famiglia." href="/soluzioni/annunci-funebri-necrologi/" />
+      <ServiceCard title="WhatsApp automatizzato" text="Comunicazioni più rapide e controllate, senza perdere professionalità." href="/contatti/" />
+      <ServiceCard title="Area riservata ai dolenti" text="Uno spazio brandizzato con la grafica dell'impresa, discreto e utile per le famiglie." href="/soluzioni/annunci-funebri-necrologi/" />
+      <ServiceCard title="Siti web e app" text="Presenza digitale pensata per consultazione annunci, informazioni e contatto diretto." href="/soluzioni/siti-web-app-imprese-funebri/" />
+      <ServiceCard title="Streaming cerimonie" text="Trasmissione delle cerimonie sul sito cliente, per chi non può essere presente." href="/soluzioni/streaming-cerimonia/" />
+      <ServiceCard title="Monitor e vetrine" text="Comunicazione ordinata e aggiornata negli spazi fisici dell'impresa." href="/soluzioni/monitor-case-funerarie/" />
+    </div>
+  </section>
+
+  <!-- Sezione Focus: Monitor Vetrina e Case Funerarie (da Screenshot 4) -->
+  <section class="section">
+    <div class="section-inner split visual-split">
+      <div class="asset-panel">
+        <div class="glass-bg-blobs" aria-hidden="true">
+          <div class="blob-circle blob-mauve" style="width: 240px; height: 240px; top: 10%; left: 10%; opacity: 0.2;"></div>
+        </div>
+        <img src="/assets/necrologi.png" alt="Monitor vetrina e Case Funerarie" style="max-height: 320px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.05));" />
+      </div>
+      <div class="teal-card">
+        <p class="eyebrow">l'innovazione sposa la tradizione</p>
+        <h2>Servizi per case funerarie</h2>
+        <p class="lead small-lead" style="margin-top: 14px;">
+          Le case funerarie moderne hanno bisogno di strumenti semplici, eleganti e funzionali per comunicare con famiglie e visitatori. 
+          Con le nostre soluzioni puoi trasformare qualsiasi monitor in un display digitale per ingressi, sale e vetrine, senza dover acquistare costosi schermi proprietari.
+        </p>
+        <ul style="margin: 20px 0; padding-left: 20px; display: grid; gap: 8px; font-weight: 500;">
+          <li>monitor ingresso</li>
+          <li>monitor stanze</li>
+          <li>tablet cordogli</li>
+          <li>monitor vetrina</li>
+        </ul>
+        <a class="button secondary" href="/soluzioni/monitor-case-funerarie/" style="margin-top: 10px;">Approfondisci</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section muted">
+    <div class="section-inner split">
+      <div>
+        <p class="eyebrow">Soluzioni partner</p>
+        <h2>Eterno e Giotto completano l'offerta, senza spostare il centro.</h2>
+      </div>
+      <div class="rich-text">
+        <p>
+          Accanto alle soluzioni Cas-Per proponiamo strumenti partner selezionati per completare il lavoro quotidiano
+          delle imprese funebri. Sono integrazioni utili, ma il cuore del nostro ecosistema resta AnnunciFunebri.it.
+        </p>
+        <p>
+          Tra queste soluzioni rientrano Eterno, gestionale verticale per organizzare servizi, documenti, agenda,
+          preventivi, fatturazione e attività operative, e Giotto, editor grafico per manifesti, ricordini e contenuti
+          coordinati.
+        </p>
+        <div class="hero-actions">
+          <a class="button secondary" href="/soluzioni/gestionale-eterno/">Scopri Eterno</a>
+          <a class="button secondary" href="/soluzioni/editor-grafico-giotto/">Scopri Giotto</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

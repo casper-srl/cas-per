@@ -1,0 +1,103 @@
+---
+import "../styles/global.css";
+
+const {
+  title = "Cas-Per | Tecnologia e relazione per imprese funebri",
+  description = "Cas-Per accompagna le imprese funebri con soluzioni digitali su misura: AnnunciFunebri.it, siti web, app, WhatsApp, streaming, monitor e assistenza diretta.",
+} = Astro.props;
+
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/chi-siamo/", label: "Chi siamo" },
+  { href: "/annuncifunebri/", label: "AnnunciFunebri.it" },
+  {
+    href: "/soluzioni/",
+    label: "Soluzioni",
+    children: [
+      { href: "/soluzioni/annunci-funebri-necrologi/", label: "Annunci e cordogli" },
+      { href: "/soluzioni/monitor-case-funerarie/", label: "Monitor case funerarie" },
+      { href: "/soluzioni/streaming-cerimonia/", label: "Streaming cerimonia" },
+      { href: "/soluzioni/siti-web-app-imprese-funebri/", label: "Siti web e app" },
+      { href: "/soluzioni/gestionale-eterno/", label: "Gestionale Eterno" },
+      { href: "/soluzioni/editor-grafico-giotto/", label: "Editor Giotto" },
+    ],
+  },
+  { href: "/eventi/", label: "rip-party" },
+  { href: "/news/", label: "News" },
+  { href: "/dicono-di-noi/", label: "Dicono di noi" },
+  { href: "/contatti/", label: "Contatti" },
+];
+
+const currentPath = Astro.url.pathname;
+
+const isActive = (href: string) => {
+  if (href === "/") return currentPath === "/";
+  return currentPath.startsWith(href);
+};
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Cas-Per home">
+        <img class="brand-logo" src="/assets/logo-casper.webp" alt="Cas-Per" />
+      </a>
+      <p class="rail-claim">Tecnologia, relazione, memoria.</p>
+      <nav class="site-nav" aria-label="Navigazione principale">
+        {
+          nav.map((item) =>
+            item.children ? (
+              <div class:list={["nav-group", isActive(item.href) && "active"]}>
+                <a class={isActive(item.href) ? "active" : ""} href={item.href}>{item.label}</a>
+                <div class="sub-nav" aria-label={`Sottopagine ${item.label}`}>
+                  {item.children.map((child) => (
+                    <a class={isActive(child.href) ? "active" : ""} href={child.href}>{child.label}</a>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <a class={isActive(item.href) ? "active" : ""} href={item.href}>{item.label}</a>
+            )
+          )
+        }
+      </nav>
+      <div class="rail-human">
+        <div class="human-stack" aria-hidden="true">
+          <span>C</span>
+          <span>P</span>
+        </div>
+        <p><strong>Demo guidata.</strong> Ti ascoltiamo, capiamo le esigenze e prepariamo una proposta su misura.</p>
+        <a href="https://wa.me/393408384217">Scrivici</a>
+      </div>
+      <div class="rail-social" aria-label="Canali social">
+        <span aria-label="Facebook">f</span>
+        <span aria-label="LinkedIn">in</span>
+      </div>
+    </header>
+    <main id="contenuto">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div>
+        <a class="brand footer-brand" href="/" aria-label="Cas-Per home">
+          <img class="brand-logo footer-logo" src="/assets/logo-casper.webp" alt="Cas-Per" />
+        </a>
+        <p>Tecnologia e relazione per l'evoluzione digitale delle imprese funebri.</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:info@cas-per.it">info@cas-per.it</a>
+        <a href="tel:+393408384217">+39 340 838 4217</a>
+        <a href="https://wa.me/393408384217">Scrivici su WhatsApp</a>
+      </div>
+    </footer>
+  </body>
+</html>

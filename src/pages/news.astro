@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+
+const posts = [
+  ["Rip-Party Veneto: il valore delle relazioni nel settore funebre", "Evento", "30 luglio 2026"],
+  ["AnnunciFunebri.it: perché non è solo necrologi online", "Piattaforma", "Agosto 2026"],
+  ["Digitale e imprese funebri: cambiare senza snaturare il servizio", "Guida", "Agosto 2026"],
+];
+---
+
+<BaseLayout title="News | Cas-Per">
+  <div class="glass-bg-blobs" aria-hidden="true">
+    <div class="blob-circle blob-cyan" style="top: 10%; right: 10%; width: 400px; height: 400px; opacity: 0.15;"></div>
+    <div class="blob-circle blob-mauve" style="top: 40%; left: 5%; width: 320px; height: 320px; opacity: 0.12;"></div>
+  </div>
+  <PageHero eyebrow="News" title="Appunti, eventi e cultura digitale per imprese funebri." text="Uno spazio per raccontare novità, strumenti, eventi e riflessioni utili al settore." />
+
+  <section class="section">
+    <div class="section-inner card-grid three">
+      {posts.map(([title, category, date]) => (
+        <article class="service-card">
+          <p class="eyebrow">{category}</p>
+          <h3>{title}</h3>
+          <p>{date}</p>
+          <a class="text-link" href="#">In preparazione</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

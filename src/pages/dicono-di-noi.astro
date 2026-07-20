@@ -1,0 +1,263 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+
+const monitorTestimonials = [
+  {
+    quote:
+      "Cas-Per offre un servizio impeccabile, moderno e rispettoso. Comunicare in modo digitale all'interno della casa funeraria ha reso tutto più semplice e dignitoso. Il servizio Annunci Funebri permette all'operatore funebre di distinguersi per professionalità, discrezione e tempestività, offrendo un supporto prezioso alle famiglie in un momento delicato.",
+    author: "Ivan Trevisin, dr.ssa Elena Polo",
+    company: "Casa Funeraria Ivan Trevisin",
+    image: "https://www.cas-per.it/wp-content/uploads/2025/11/Elena-e-Ivan.png",
+  },
+  {
+    quote:
+      "Abbiamo collaborato con Cas-Per per la gestione dei monitor e della multimedialità nella nostra casa funeraria. La professionalità del team è stata evidente fin dal primo contatto: soluzioni adeguate al contesto delicato del commiato, contenuti gestiti con puntualità e una piattaforma efficiente e flessibile.",
+    author: "Paolo Verrocchio",
+    company: "Casa Funeraria Dimora del Silenzio",
+    image: "https://www.cas-per.it/wp-content/uploads/2025/11/paolo.png",
+  },
+  {
+    quote:
+      "Le soluzioni offerte da Annunci Funebri hanno reso più semplice e funzionale la gestione della comunicazione all'interno della casa funeraria. Inserendo una sola volta i dati, le informazioni vengono trasmesse a tutti i dispositivi, riducendo tempi ed errori e migliorando la cura dell'immagine.",
+    author: "Fabrizio Bottigelli",
+    company: "Casa Funeraria Fratelli Ferrario",
+    image: "https://www.cas-per.it/wp-content/uploads/2025/11/fabrizio.png",
+  },
+  {
+    quote:
+      "Utilizziamo da un paio d'anni il gestionale Eterno e le soluzioni per monitor e tablet. Ci aiutano a predisporre la documentazione in pochi minuti, dare informazioni chiare a clienti e personale e trasmettere un'immagine moderna dell'azienda. Il servizio clienti è rapido, efficiente e sempre disponibile.",
+    author: "Marco Trevisin",
+    company: "Casa Funeraria Trevisin Roncade",
+    image: "https://www.cas-per.it/wp-content/uploads/2025/11/marco.png",
+  },
+  {
+    quote:
+      "Consigliatissimo. Un sistema moderno con un layout elegante per comunicare in maniera sobria e discreta. Il monitor all'ingresso della casa funeraria consente al visitatore di trovare subito le informazioni, con un'operatività semplice per chi utilizza AnnunciFunebri.it ed Eterno.",
+    author: "Riccardo e Paola Moretti",
+    company: "Casa Funeraria Moretti",
+    image: "https://www.cas-per.it/wp-content/uploads/2025/11/Paola-e-Riccardo.jpg",
+  },
+];
+
+const platformTestimonials = [
+  {
+    quote:
+      "Collaboriamo con Annunci Funebri da diversi anni e il loro contributo è stato determinante nella crescita del nostro servizio. Ci hanno supportato nella gestione dei monitor, nel sistema di condoglianze online e in nuovi progetti, con disponibilità, competenza e affidabilità.",
+    author: "Marco Tropeano",
+    company: "Onoranze Funebri e Casa Funeraria Sant'Ambrogio - Magnago (MI)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/marco.png",
+  },
+  {
+    quote:
+      "Un servizio eccellente, tecnologicamente all'avanguardia e in continua evoluzione. Apprezzo la capacità di restare costantemente aggiornati, offrendo soluzioni innovative che semplificano la gestione dei necrologi con professionalità impeccabile.",
+    author: "Jessica Facca",
+    company: "Onoranze Funebri Facca - Sequals (PN)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/jessica.png",
+  },
+  {
+    quote:
+      "AnnunciFunebri.it è per noi un partner imprescindibile. La condivisione degli annunci tramite WhatsApp, la ricezione dei cordogli in tempi brevi e l'integrazione nel gestionale tramite Giotto hanno migliorato i tempi operativi e la qualità del servizio alle famiglie.",
+    author: "Daniele Magini",
+    company: "Onoranze Funebri Agape - Abbadia San Salvatore (SI)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/daniele.png",
+  },
+  {
+    quote:
+      "Il servizio è molto apprezzato: riceviamo tanti complimenti e ringraziamenti dalle persone che inviano il proprio messaggio di cordoglio e anche da chi riceve questa testimonianza di vicinanza e affetto. Da anni pubblichiamo online i necrologi e il nostro sito è molto seguito.",
+    author: "Paola Moretti e Riccardo Bocciarelli",
+    company: "Casa Funeraria Moretti",
+    image: "https://www.cas-per.it/wp-content/uploads/2025/11/Paola-e-Riccardo.jpg",
+  },
+  {
+    quote:
+      "Sarò sempre grato a Giuliano, Roberta e a tutto lo staff di Annunci Funebri per la professionalità, la discrezione e il supporto nella creazione del sito internet della mia azienda, oltre al servizio di pubblicazione necrologi e condoglianze.",
+    author: "Mattia Sammarco",
+    company: "Onoranze Funebri Fides - Fagagna (UD)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/mattia.png",
+  },
+  {
+    quote:
+      "Conoscere Giuliano e Roberta è stata una grande fortuna: hanno dato un importante rinnovamento al mio sito e alla mia impresa. Nella mia zona tantissime persone consultano i necrologi online e apprezzano la possibilità di inviare un messaggio di cordoglio direttamente alla famiglia.",
+    author: "Fabrizio Perrero",
+    company: "Onoranze Funebri Perrero - Nole (TO)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/fabrizio.png",
+  },
+  {
+    quote:
+      "Un servizio di altissima qualità con un taglio sartoriale. Ogni aspetto grafico e funzionale del sito è stato costruito sulla nostra azienda, creando un risultato unico di cui siamo pienamente soddisfatti.",
+    author: "Michela Belluzzo",
+    company: "Onoranze Funebri DueBI e Casa Funeraria L'Abbraccio - Mede (PV)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/michela.png",
+  },
+  {
+    quote:
+      "Azienda affidabile con personale preparato e sempre disponibile. La piattaforma è facile da usare e intuitiva sia per le onoranze funebri sia per i clienti; crea un plus per le imprese ed è molto apprezzata dalle famiglie.",
+    author: "Katia Regazzo",
+    company: "Onoranze Funebri Zanini e Casa Funeraria Oltre - San Donà di Piave (VE)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/katia.jpg",
+  },
+  {
+    quote:
+      "In Annunci Funebri ho trovato una soluzione efficace, funzionale e intuitiva, che permette a familiari e amici di ricevere un messaggio di cordoglio direttamente sul telefono: un gesto semplice, ma oggi molto significativo.",
+    author: "Manuela Orrù",
+    company: "Onoranze Funebri e Casa Funeraria Excelsior - Mogoro (OR)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/manuela.jpg",
+  },
+  {
+    quote:
+      "Reputo il servizio molto valido e intuitivo, sia per noi come azienda sia per il pubblico. Alla nostra azienda ha fatto fare uno step importante nei confronti della clientela: molti utenti lo utilizzano per restare aggiornati e inviare messaggi di cordoglio in modo dignitoso e privato.",
+    author: "Luigi Duranti",
+    company: "Onoranze Funebri Duranti - Urbino (PU)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/luigi.jpg",
+  },
+  {
+    quote:
+      "Il servizio necrologi di Annunci Funebri offre all'impresa un valore aggiunto per i propri clienti, anche per quelli meno smart. La possibilità di vedere i messaggi nell'area riservata e gestire i ringraziamenti denota un'impresa al passo coi tempi.",
+    author: "Mattia Toniolo",
+    company: "Onoranze Funebri Falier e Toniolo - Scorzè (VE)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/mattia.jpg",
+  },
+  {
+    quote:
+      "All'inizio, come tutti i nuovi programmi, può sembrare un po' complicato; poi diventa tutto facile. Grande elogio alle persone dietro al servizio per gentilezza e assistenza sempre al top, che nel nostro lavoro è essenziale.",
+    author: "Mauro Buosi",
+    company: "Onoranze Funebri e Casa Funeraria Buosi - Annone Veneto (VE)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/b.jpg",
+  },
+  {
+    quote:
+      "Il servizio di annunci funebri online coniuga immediatezza, discrezione e ampia diffusione dell'informazione in un momento delicato. Permette di raggiungere in tempo reale un pubblico vasto, anche geograficamente lontano, mantenendo dignità e rispetto.",
+    author: "Giuliano Oviszach",
+    company: "Onoranze Funebri e Casa Funeraria Giuliano - Gemona del Friuli (UD)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/giuliano.jpg",
+  },
+  {
+    quote:
+      "Servizio all'avanguardia e di grande utilità. Sono più che soddisfatto dell'assistenza e del supporto che ci danno in qualsiasi momento, con grande professionalità.",
+    author: "Lino Ruggero",
+    company: "Casa Funeraria Dimora del Silenzio Verrocchio e Ruggero - Montesilvano (PE)",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/lino.jpg",
+  },
+  {
+    quote:
+      "Il servizio di condoglianze online di Annunci Funebri risulta professionale e rispettoso. La piattaforma è semplice da usare e permette di condividere informazioni sui funerali, inviare cordogli, aggiungere foto, ordinare composizioni floreali e restare vicini anche a distanza.",
+    author: "Ivan Trevisin",
+    company: "Onoranze Funebri e Casa Funeraria Ivan Trevisin - Treviso",
+    image: "https://www.cas-per.it/wp-content/uploads/2026/04/ivan.jpg",
+  },
+];
+
+const allTestimonials = [...monitorTestimonials, ...platformTestimonials];
+
+const getInitials = (name: string) =>
+  name
+    .split(/[\s,]+/)
+    .filter((part) => part.length > 2)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+---
+
+<BaseLayout
+  title="Dicono di noi | Cas-Per"
+  description="Le testimonianze delle imprese funebri che utilizzano AnnunciFunebri.it, monitor, streaming e soluzioni digitali Cas-Per."
+>
+  <div class="glass-bg-blobs" aria-hidden="true">
+    <div class="blob-circle blob-cyan" style="top: 8%; right: 8%; width: 390px; height: 390px;"></div>
+    <div class="blob-circle blob-mauve" style="top: 42%; left: 3%; width: 320px; height: 320px;"></div>
+    <div class="blob-circle blob-powder" style="bottom: 8%; right: 12%; width: 360px; height: 360px;"></div>
+  </div>
+
+  <PageHero
+    eyebrow="Dicono di noi"
+    title="La fiducia nasce dal lavoro fatto ogni giorno."
+    text="Le parole delle imprese funebri che usano le nostre soluzioni raccontano meglio di qualsiasi promessa il valore di un servizio seguito, concreto e costruito sul campo."
+  />
+
+  <section class="section">
+    <div class="section-inner proof-intro">
+      <div>
+        <p class="eyebrow">Referenze clienti</p>
+        <h2>testimonianze reali, raccolte da imprese che lavorano con noi.</h2>
+      </div>
+      <p>
+        Ogni collaborazione nasce da esigenze concrete: comunicare meglio, semplificare il lavoro quotidiano, offrire
+        alle famiglie strumenti piÃ¹ chiari e vicini. In questa pagina raccogliamo alcune voci di chi utilizza le nostre
+        soluzioni sul campo, dalle imprese che pubblicano necrologi e cordogli online alle case funerarie che integrano
+        monitor, servizi digitali e percorsi di comunicazione su misura.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-heading">
+        <p class="eyebrow">Monitor e case funerarie</p>
+        <h2>Quando la comunicazione digitale entra negli spazi dell'impresa.</h2>
+      </div>
+      <div class="testimonial-grid">
+        {monitorTestimonials.map((item, index) => (
+          <article class:list={["testimonial-card", "teal-card", index === 0 && "featured"]}>
+            <div class="testimonial-person">
+              <div class="testimonial-avatar" data-initials={getInitials(item.author)}>
+                <img src={item.image} alt={`Foto di ${item.author}`} loading="lazy" onerror="this.style.display='none'" />
+              </div>
+              <div>
+                <strong>{item.author}</strong>
+                <span>{item.company}</span>
+              </div>
+            </div>
+            <blockquote>{item.quote}</blockquote>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section muted">
+    <div class="section-inner">
+      <div class="section-heading">
+        <p class="eyebrow">AnnunciFunebri.it</p>
+        <h2>Una piattaforma centrale, riconosciuta da chi la usa ogni giorno.</h2>
+      </div>
+      <div class="testimonial-grid">
+        {platformTestimonials.map((item) => (
+          <article class="testimonial-card teal-card">
+            <div class="testimonial-person">
+              <div class="testimonial-avatar" data-initials={getInitials(item.author)}>
+                <img src={item.image} alt={`Foto di ${item.author}`} loading="lazy" onerror="this.style.display='none'" />
+              </div>
+              <div>
+                <strong>{item.author}</strong>
+                <span>{item.company}</span>
+              </div>
+            </div>
+            <blockquote>{item.quote}</blockquote>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="cta-card teal-card">
+        <p class="eyebrow">Vuoi parlarne con noi?</p>
+        <h2>Ti ascoltiamo, capiamo le esigenze e prepariamo una proposta su misura.</h2>
+        <p>
+          La demo è guidata: preferiamo conoscere come lavori, quali servizi offri e dove la tecnologia può aiutarti
+          davvero.
+        </p>
+        <a class="button primary" href="https://wa.me/393408384217">Scrivici su WhatsApp</a>
+      </div>
+    </div>
+  </section>
+<style>
+  .proof-intro {
+    grid-template-columns: 1fr !important;
+    max-width: 800px;
+  }
+</style>
+</BaseLayout>

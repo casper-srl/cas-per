@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+---
+
+<BaseLayout title="AnnunciFunebri.it | Cas-Per">
+  <div class="glass-bg-blobs" aria-hidden="true">
+    <div class="blob-circle blob-cyan" style="top: 10%; right: 10%; width: 400px; height: 400px; opacity: 0.15;"></div>
+    <div class="blob-circle blob-mauve" style="top: 40%; left: 5%; width: 320px; height: 320px; opacity: 0.12;"></div>
+  </div>
+  <PageHero eyebrow="Piattaforma centrale" title="AnnunciFunebri.it non è solo necrologi online." text="È una piattaforma che aiuta l'impresa funebre a offrire informazioni chiare, raccogliere messaggi di cordoglio e trasformare la vicinanza in un servizio concreto." />
+
+  <section class="section">
+    <div class="section-inner split">
+      <div class="interface-mockup" aria-label="Mockup AnnunciFunebri.it">
+        <div class="mock-header"></div>
+        <div class="mock-body">
+          <div class="mock-photo"></div>
+          <div class="mock-lines">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="mock-message">Messaggi di cordoglio raccolti con cura</div>
+      </div>
+      <div class="rich-text">
+        <h2>Un servizio utile per famiglie, comunità e impresa.</h2>
+        <p>
+          Le persone cercano online informazioni sulle cerimonie e desiderano inviare un pensiero anche quando non
+          possono essere presenti. AnnunciFunebri.it rende questo gesto semplice, discreto e accessibile.
+        </p>
+        <p>
+          Per l'impresa diventa un servizio distintivo: migliora la presenza digitale, valorizza il sito e rafforza la
+          percezione di professionalità.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section muted">
+    <div class="section-inner">
+      <div class="step-grid">
+        <div><strong>1</strong><p>L'impresa pubblica l'annuncio.</p></div>
+        <div><strong>2</strong><p>La comunità trova le informazioni online.</p></div>
+        <div><strong>3</strong><p>Parenti e amici inviano un messaggio.</p></div>
+        <div><strong>4</strong><p>I cordogli possono diventare memoria concreta.</p></div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

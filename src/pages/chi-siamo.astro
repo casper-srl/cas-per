@@ -1,0 +1,104 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+
+const team = [
+  ["Andrea Peressoni", "coFounder - strategia e amministrazione", "Visione imprenditoriale, tecnologia e guida amministrativa."],
+  ["Giuliano Casco", "coFounder - responsabile commerciale", "Esperienza tecnica, vendita, formazione e rapporto diretto con le imprese."],
+  ["Paolo Cantoni", "sviluppatore", "Trasforma idee e bisogni operativi in strumenti concreti e affidabili."],
+  ["Roberta Casco", "customer care", "Grafica, eventi, assistenza clienti e formazione."],
+  ["Daniela Maiero", "backoffice", "Backoffice, grafica, assistenza clienti e supporto."],
+  ["Simone De Cecco", "sviluppatore", "Esperienza tecnica senior e sviluppo di soluzioni su misura."],
+];
+
+const timeline = [
+  ["2014", "AnnunciFunebri.it diventa il progetto a tempo pieno dei founder."],
+  ["2017", "Il team tecnico si rafforza per trasformare idee e bisogni operativi in piattaforma."],
+  ["2021", "Nasce Rip-Party, il format itinerante creato con i partner del settore."],
+  ["2023", "Backoffice, grafica ed eventi entrano in modo più strutturato nel lavoro quotidiano."],
+  ["oggi", "Cas-Per continua a crescere con servizi digitali, assistenza diretta e soluzioni su misura."],
+];
+---
+
+<BaseLayout title="Chi siamo | Cas-Per">
+  <div class="glass-bg-blobs" aria-hidden="true">
+    <div class="blob-circle blob-cyan" style="top: 10%; right: 5%; width: 420px; height: 420px; opacity: 0.15;"></div>
+    <div class="blob-circle blob-mauve" style="top: 40%; left: -5%; width: 360px; height: 360px; opacity: 0.12;"></div>
+    <div class="blob-circle blob-powder" style="bottom: 10%; right: 10%; width: 380px; height: 380px; opacity: 0.15;"></div>
+  </div>
+  <PageHero eyebrow="Chi siamo" title="Un team vicino alle imprese, con la solidità necessaria per gestire una piattaforma nazionale." text="Cas-Per unisce competenze tecniche, ascolto e conoscenza concreta del settore funebre." />
+
+  <section class="section">
+    <div class="section-inner split">
+      <div>
+        <p class="eyebrow">Dal 2014 su AnnunciFunebri.it</p>
+        <h2>Costruiamo strumenti digitali ascoltando chi li usa ogni giorno.</h2>
+      </div>
+      <div class="rich-text teal-card story-card">
+        <p>
+          Cas-Per nasce dall'incontro tra competenze tecniche, esperienza commerciale e attenzione al lavoro quotidiano
+          delle imprese funebri. Non proponiamo strumenti generici: sviluppiamo soluzioni pensate per un settore che
+          richiede discrezione, precisione e presenza.
+        </p>
+        <p>
+          Il nostro modo di lavorare resta diretto: ascoltiamo, mostriamo, adattiamo e accompagniamo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section muted">
+    <div class="section-inner">
+      <figure class="staff-photo-card">
+        <img src="/assets/staff-casper.jpg" alt="Staff Cas-Per allo stand AnnunciFunebri.it e Rip-Party" />
+        <figcaption>
+          <span>Cas-Per sul campo</span>
+          <strong>Fiere, eventi e incontri con le imprese del settore.</strong>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner split">
+      <div>
+        <p class="eyebrow">La nostra storia</p>
+        <h2>Pochi passaggi, una direzione chiara: essere utili al settore.</h2>
+      </div>
+      <div class="history-timeline teal-card">
+        <div class="timeline-brand-card">
+          <img src="/assets/Risorsa-1af.png" alt="AnnunciFunebri.it" style="max-width: 220px; margin-bottom: 24px;" />
+        </div>
+        <div style="display: grid; gap: 20px;">
+          {timeline.map(([year, text]) => (
+            <article class="timeline-row">
+              <strong><span aria-hidden="true">-&gt; </span>{year}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section muted">
+    <div class="section-inner">
+      <div class="section-heading">
+        <p class="eyebrow">Persone</p>
+        <h2>Ruoli chiari, competenze complementari.</h2>
+      </div>
+      <div class="team-grid">
+        {team.map(([name, role, text]) => (
+          <article class="team-card">
+            <div class="avatar" aria-hidden="true">{name.split(" ").map((part) => part[0]).join("")}</div>
+            <div>
+              <h3>{name}</h3>
+              <p class="role">{role}</p>
+              <p>{text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

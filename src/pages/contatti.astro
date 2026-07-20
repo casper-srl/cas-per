@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+---
+
+<BaseLayout title="Contatti | Cas-Per">
+  <div class="glass-bg-blobs" aria-hidden="true">
+    <div class="blob-circle blob-cyan" style="top: 10%; left: 5%; width: 420px; height: 420px; opacity: 0.15;"></div>
+    <div class="blob-circle blob-mauve" style="top: 35%; right: 5%; width: 340px; height: 340px; opacity: 0.12;"></div>
+    <div class="blob-circle blob-powder" style="bottom: 10%; left: 10%; width: 380px; height: 380px; opacity: 0.15;"></div>
+  </div>
+
+  <PageHero eyebrow="Contatti" title="Parliamo della tua impresa." text="Niente percorsi automatici: preferiamo ascoltare come lavori e capire insieme quali soluzioni possono esserti davvero utili." />
+
+  <section class="section">
+    <div class="section-inner split visual-split">
+      <div class="contact-card future-card teal-card" style="grid-column: span 1;">
+        <span>Vai incontro al futuro</span>
+        <h2 style="margin-top: 10px; margin-bottom: 14px; font-size: 1.85rem;">Una proposta costruita sul modo in cui lavori.</h2>
+        <p style="margin-bottom: 24px;">
+          Ti ascoltiamo, capiamo le esigenze e prepariamo una proposta su misura.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
+          <a href="https://wa.me/393408384217" style="display: block; text-decoration: none; color: inherit;">
+            <strong style="color: var(--teal-deep); display: block; font-size: 1rem; margin: 0 0 4px 0;">WhatsApp</strong>
+            <span style="font-size: 0.88rem; color: var(--soft-ink);">Scrivici direttamente</span>
+          </a>
+          <a href="tel:+393408384217" style="display: block; text-decoration: none; color: inherit;">
+            <strong style="color: var(--teal-deep); display: block; font-size: 1rem; margin: 0 0 4px 0;">Telefono</strong>
+            <span style="font-size: 0.88rem; color: var(--soft-ink);">+39 340 838 4217</span>
+          </a>
+          <a href="mailto:info@cas-per.it" style="display: block; text-decoration: none; color: inherit;">
+            <strong style="color: var(--teal-deep); display: block; font-size: 1rem; margin: 0 0 4px 0;">Email</strong>
+            <span style="font-size: 0.88rem; color: var(--soft-ink);">info@cas-per.it</span>
+          </a>
+          <div style="display: block;">
+            <strong style="color: var(--teal-deep); display: block; font-size: 1rem; margin: 0 0 4px 0;">Sede</strong>
+            <span style="font-size: 0.88rem; color: var(--soft-ink);">Tarcento (UD), Italia</span>
+          </div>
+        </div>
+        <a class="button primary" href="https://wa.me/393408384217" style="width: 100%;">Inizia da WhatsApp</a>
+      </div>
+      <div class="asset-panel" style="grid-column: span 1;">
+        <div class="glass-bg-blobs" aria-hidden="true">
+          <div class="blob-circle blob-mauve" style="width: 250px; height: 250px; top: 15%; right: 15%; opacity: 0.18;"></div>
+        </div>
+        <img src="/assets/programmatore.png" alt="Collaborazione Cas-Per" style="max-height: 380px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.06));" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,400 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+---
+
+<BaseLayout>
+  <section class="hero studio-hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Cas-Per per imprese funebri</p>
+      <h1>
+        Innovazione, tecnologia e professionalità per
+        <span class="rotating-words" aria-label="soluzioni su misura, innovative, verticali e concrete">
+          <span>soluzioni su misura</span>
+          <span>soluzioni innovative</span>
+          <span>soluzioni verticali</span>
+          <span>soluzioni concrete</span>
+        </span>
+      </h1>
+      <p class="lead">
+        Aiutiamo le imprese funebri a comunicare con chiarezza, raccogliere i messaggi di cordoglio e offrire alle
+        famiglie servizi digitali curati, senza perdere il valore della relazione.
+      </p>
+      <p class="serif-note">
+        "La tecnologia funziona davvero quando diventa un gesto semplice, discreto, utile."
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="https://wa.me/393408384217">Richiedi una demo</a>
+        <a class="button secondary" href="/contatti/">Contattaci</a>
+      </div>
+      <div class="hero-proof" aria-label="Numeri AnnunciFunebri.it">
+        <div><strong>200</strong><span>imprese funebri affiliate</span></div>
+        <div><strong>290k</strong><span>annunci inseriti all'anno</span></div>
+        <div><strong>1,35M</strong><span>cordogli ricevuti</span></div>
+      </div>
+    </div>
+    <div class="memory-board refined-board doodle-panel" aria-label="Sistema Cas-Per">
+      <img class="board-logo" src="/assets/logo-casper.webp" alt="" aria-hidden="true" />
+      <div class="hero-badge">
+        <span>dal 2014</span>
+        <strong>Non solo necrologi online</strong>
+      </div>
+      <div class="hero-art-wrap">
+        <div class="glass-bg-blobs" aria-hidden="true">
+          <div class="blob-circle blob-cyan" style="width: 260px; height: 260px; top: -20px; left: -20px; opacity: 0.22;"></div>
+          <div class="blob-circle blob-mauve" style="width: 220px; height: 220px; bottom: -20px; right: -20px; opacity: 0.22;"></div>
+        </div>
+        <img class="hero-art" src="/assets/Risorsa-1cp2-1024x1007.png" alt="Team Cas-Per che collabora" />
+      </div>
+      <div class="board-kicker">sistema Cas-Per</div>
+      <div class="board-title">annuncio<br />cordoglio<br />memoria</div>
+      <div class="board-flow">
+        <span>impresa</span>
+        <span>famiglia</span>
+        <span>comunità</span>
+      </div>
+      <div class="board-note">
+        Dal messaggio digitale al libretto cartaceo: un servizio che resta nelle mani della famiglia.
+      </div>
+    </div>
+  </section>
+
+  <section id="libretto" class="section booklet-section">
+    <div class="section-inner split">
+      <div>
+        <p class="eyebrow">Il gesto che rende tangibile il digitale</p>
+        <h2>Il libretto di cordoglio trasforma i messaggi online in memoria da consegnare.</h2>
+        <p class="serif-note">
+          Il digitale raccoglie il messaggio. Il libretto lo trasforma in un ricordo da consegnare.
+        </p>
+      </div>
+      <div class="booklet-stage" data-booklet data-page="0">
+        <div class="booklet">
+          <div class="book-page cover">
+            <div class="poster-cover">
+              <div class="poster-sheet">
+                <div class="poster-photo" aria-hidden="true"></div>
+                <div class="poster-lines" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="poster-name">Mario Rossi</div>
+                <div class="poster-dates">1942 - 2026</div>
+              </div>
+              <div class="poster-stack" aria-hidden="true"></div>
+            </div>
+            <div class="cover-caption">
+              <span>AnnunciFunebri.it</span>
+              <strong>cordogli</strong>
+              <small>messaggi raccolti e consegnati alla famiglia</small>
+            </div>
+          </div>
+          <div class="book-page page-one">
+            <p class="condolence-message">Vi siamo vicini con affetto in questo momento delicato.</p>
+            <div class="sender-card">
+              <strong>Maria Bianchi e famiglia</strong>
+              <span>Tel. 333 123 4567</span>
+              <span>maria.bianchi@email.it</span>
+              <span>Via Roma 24, Padova</span>
+            </div>
+          </div>
+          <div class="book-page page-two">
+            <p class="condolence-message">Un ricordo sincero, una presenza che resta.</p>
+            <div class="sender-card">
+              <strong>I colleghi dello Studio Verdi</strong>
+              <span>Tel. 049 765 4321</span>
+              <span>studio.verdi@email.it</span>
+              <span>Corso Milano 18, Vicenza</span>
+            </div>
+          </div>
+          <div class="book-page page-three">
+            <p class="condolence-message">Con gratitudine ricordiamo la sua gentilezza e il sorriso con cui accoglieva tutti.</p>
+            <div class="sender-card">
+              <strong>Lucia e Paolo</strong>
+              <span>Tel. 347 998 1122</span>
+              <span>lucia.paolo@email.it</span>
+              <span>Via San Marco 7, Treviso</span>
+            </div>
+          </div>
+          <div class="book-page page-four">
+            <p class="condolence-message">La vostra famiglia è nei nostri pensieri. Vi abbracciamo con affetto.</p>
+            <div class="sender-card">
+              <strong>Famiglia Conti</strong>
+              <span>Tel. 340 555 0198</span>
+              <span>conti.famiglia@email.it</span>
+              <span>Piazza Garibaldi 3, Verona</span>
+            </div>
+          </div>
+        </div>
+        <div class="booklet-controls">
+          <button type="button" data-flip>sfoglia</button>
+          <p>Ogni pagina raccoglie messaggio e dati del mittente: telefono, email e indirizzo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section muted configurator-section">
+    <div class="section-inner configurator-grid">
+      <div>
+        <p class="eyebrow">Soluzioni su misura</p>
+        <h2>Ogni proposta nasce dal modo in cui lavora la tua impresa.</h2>
+        <p class="lead small-lead">
+          Ogni agenzia ha volumi, abitudini e servizi diversi. Per questo partiamo dalle esigenze reali e costruiamo
+          una soluzione proporzionata, chiara e sostenibile.
+        </p>
+      </div>
+      <div class="configurator" data-configurator>
+        <label class="range-label" for="servicesRange">
+          <span>Servizi funebri annui</span>
+          <strong data-service-output>150</strong>
+        </label>
+        <input id="servicesRange" type="range" min="50" max="350" step="50" value="150" data-service-range />
+        <div class="module-grid" aria-label="Moduli di interesse">
+          <label class="module-toggle">
+            <input type="checkbox" value="WhatsApp automatico" checked />
+            <span>WhatsApp</span>
+          </label>
+          <label class="module-toggle">
+            <input type="checkbox" value="Monitor e vetrine" />
+            <span>Monitor</span>
+          </label>
+          <label class="module-toggle">
+            <input type="checkbox" value="Sito web o app" checked />
+            <span>Sito/App</span>
+          </label>
+          <label class="module-toggle">
+            <input type="checkbox" value="Streaming cerimonie" />
+            <span>Streaming</span>
+          </label>
+        </div>
+        <div class="config-summary">
+          <p data-config-summary>
+            La tua impresa gestisce circa 150 servizi e vuole integrare WhatsApp automatico, Sito web o app.
+          </p>
+          <a class="button primary" data-config-cta href="https://wa.me/393408384217">Richiedi una proposta</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section editorial-section">
+    <div class="section-inner editorial-grid">
+      <aside class="section-index">01</aside>
+      <div>
+        <p class="eyebrow">Non solo necrologi online</p>
+        <h2>Una piattaforma che diventa gesto, servizio, presenza.</h2>
+      </div>
+      <div class="rich-text lined-copy">
+        <p>
+          AnnunciFunebri.it non è una semplice bacheca digitale. È uno spazio in cui l'impresa può pubblicare
+          informazioni chiare, raccogliere messaggi di cordoglio e offrire alle famiglie un servizio moderno,
+          discreto e utile.
+        </p>
+        <p>
+          Il digitale non sostituisce il rapporto umano: lo sostiene, lo rende più accessibile e permette anche a chi
+          è lontano di far arrivare un pensiero.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section muted ledger-section">
+    <div class="section-inner">
+      <div class="section-heading">
+        <p class="eyebrow">Ecosistema Cas-Per</p>
+        <h2>I nostri servizi lavorano insieme, con AnnunciFunebri.it al centro.</h2>
+      </div>
+      <div class="service-ledger">
+        <ServiceCard eyebrow="01 / piattaforma" title="Annunci e cordogli" text="Pubblicazione dei necrologi, raccolta dei messaggi, validazione dei cordogli e libretto cartaceo da consegnare alla famiglia." href="/soluzioni/annunci-funebri-necrologi/" />
+        <ServiceCard eyebrow="02 / relazione" title="WhatsApp e area dolenti" text="Comunicazioni più chiare, spazi riservati brandizzati e strumenti pensati per accompagnare le famiglie con cura." href="/soluzioni/annunci-funebri-necrologi/" />
+        <ServiceCard eyebrow="03 / presenza digitale" title="Siti web e app" text="Siti e app per imprese funebri, collegati agli annunci e progettati per rendere più semplice la consultazione da parte delle famiglie." href="/soluzioni/siti-web-app-imprese-funebri/" />
+        <ServiceCard eyebrow="04 / partecipazione" title="Streaming cerimonie" text="Dirette riservate e integrate nel sito dell'impresa, per permettere anche a chi è lontano di partecipare con discrezione." href="/soluzioni/streaming-cerimonia/" />
+        <ServiceCard eyebrow="05 / spazi fisici" title="Monitor e vetrine" text="Schermate eleganti e sempre aggiornate per ingressi, sale, case funerarie e vetrine: informazioni utili, coerenti con l'immagine dell'impresa." href="/soluzioni/monitor-case-funerarie/" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section rip-section">
+    <div class="section-inner rip-grid">
+      <div>
+        <p class="eyebrow">Rip-Party</p>
+        <h2>Relazioni vere, fuori dalla sala riunioni.</h2>
+        <p class="lead small-lead">
+          Serate informali in location curate, organizzate con i partner del settore per incontrare clienti, conoscere
+          nuove imprese e costruire fiducia senza forzature commerciali.
+        </p>
+        <a class="button secondary" href="https://www.rip-party.it/" target="_blank" style="margin-top: 24px;">Vai a Rip-Party</a>
+      </div>
+      <div class="rip-map-container">
+        <div class="rip-map" aria-label="Tappe Rip-Party">
+          <img class="rip-statue-bg" src="/assets/statuaselfie-uploaded.png" alt="" aria-hidden="true" />
+          <div class="rip-stops-list">
+            <button type="button" class="rip-stop active">
+              <span>Prossima tappa</span>
+              <strong>Veneto · 30 luglio 2026</strong>
+            </button>
+            <button type="button" class="rip-stop">
+              <span>Ultima edizione</span>
+              <strong>Puglia · giugno 2026</strong>
+            </button>
+            <button type="button" class="rip-stop">
+              <span>In cantina</span>
+              <strong>Franciacorta · 27 marzo 2026</strong>
+            </button>
+          </div>
+          <div class="rip-card">
+            <span>prossima tappa</span>
+            <strong>Veneto, 30 luglio</strong>
+            <p>Cena, confronto e networking con imprese funebri e partner di zona.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const booklet = document.querySelector("[data-booklet]");
+    const flipButton = booklet?.querySelector("[data-flip]");
+    flipButton?.addEventListener("click", () => {
+      if (!booklet) return;
+      const nextPage = (Number(booklet.dataset.page ?? "0") + 1) % 5;
+      booklet.dataset.page = String(nextPage);
+    });
+
+    const configurator = document.querySelector("[data-configurator]");
+    const range = configurator?.querySelector("[data-service-range]");
+    const output = configurator?.querySelector("[data-service-output]");
+    const summary = configurator?.querySelector("[data-config-summary]");
+    const cta = configurator?.querySelector("[data-config-cta]");
+    const modules = Array.from(configurator?.querySelectorAll(".module-toggle input") ?? []);
+
+    const updateConfigurator = () => {
+      if (!range || !output || !summary || !cta) return;
+      const services = range.value;
+      const selected = modules.filter((input) => input.checked).map((input) => input.value);
+      const needs = selected.length ? selected.join(", ") : "una consulenza iniziale";
+      output.textContent = services;
+      summary.textContent = `La tua impresa gestisce circa ${services} servizi e vuole integrare ${needs}. Possiamo costruire una proposta su misura per rendere più semplice la comunicazione e più curata l'esperienza delle famiglie.`;
+      cta.href = `https://wa.me/393408384217?text=${encodeURIComponent(`Ciao, vorrei una proposta Cas-Per su misura. Gestiamo circa ${services} servizi annui e ci interessano: ${needs}.`)}`;
+    };
+
+    range?.addEventListener("input", updateConfigurator);
+    modules.forEach((input) => input.addEventListener("change", updateConfigurator));
+    updateConfigurator();
+  </script>
+  
+  <style>
+    .rip-map-container {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: var(--radius);
+    }
+
+    .rip-statue-bg {
+      position: absolute;
+      right: -36px;
+      bottom: -34px;
+      width: min(34vw, 260px);
+      opacity: 0.13;
+      pointer-events: none;
+      z-index: 0;
+      filter: grayscale(100%) contrast(1.1);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .rip-map-container:hover .rip-statue-bg {
+      transform: scale(1.04) translateY(-6px) rotate(2deg);
+      opacity: 0.18;
+    }
+
+    .rip-section .rip-map {
+      display: grid;
+      min-height: auto;
+      gap: 20px;
+      padding: clamp(22px, 3vw, 34px);
+    }
+
+    .rip-section .rip-map::before {
+      content: none;
+    }
+
+    .rip-stops-list {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 12px;
+    }
+
+    .rip-section .rip-stop,
+    .rip-section .rip-stop:nth-child(1),
+    .rip-section .rip-stop:nth-child(2),
+    .rip-section .rip-stop:nth-child(3) {
+      position: relative;
+      inset: auto;
+      right: auto;
+      bottom: auto;
+      top: auto;
+      left: auto;
+      display: grid;
+      grid-template-columns: minmax(120px, 0.44fr) minmax(0, 1fr);
+      width: 100%;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 18px;
+      background: rgba(255, 255, 255, 0.62);
+      border-color: rgba(5, 162, 194, 0.28);
+      border-radius: 18px;
+      box-shadow: 0 10px 24px rgba(23, 43, 49, 0.06);
+    }
+
+    .rip-section .rip-stop.active {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.82);
+      border-color: var(--teal);
+      box-shadow: inset 5px 0 0 var(--teal), 0 14px 28px rgba(23, 43, 49, 0.08);
+    }
+
+    .rip-section .rip-stop.active span {
+      color: var(--teal-deep);
+    }
+
+    .rip-section .rip-stop span {
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .rip-section .rip-stop strong {
+      font-size: clamp(1rem, 1.6vw, 1.18rem);
+      line-height: 1.25;
+    }
+
+    .rip-section .rip-card {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 460px);
+      max-width: none;
+      margin-top: 4px;
+      border-radius: 18px;
+    }
+
+    @media (max-width: 768px) {
+      .rip-statue-bg {
+        width: 180px;
+        right: -10px;
+        bottom: -30px;
+        opacity: 0.1;
+      }
+
+      .rip-section .rip-stop,
+      .rip-section .rip-stop:nth-child(1),
+      .rip-section .rip-stop:nth-child(2),
+      .rip-section .rip-stop:nth-child(3) {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+  </style>
+</BaseLayout>
