@@ -69,14 +69,15 @@ const isActive = (href: string) => {
         {
           nav.map((item) =>
             item.children ? (
-              <div class:list={["nav-group", isActive(item.href) && "active"]}>
-                <a class={isActive(item.href) ? "active" : ""} href={item.href}>{item.label}</a>
+              <details class:list={["nav-group", isActive(item.href) && "active"]}>
+                <summary class={isActive(item.href) ? "active" : ""}>{item.label}</summary>
                 <div class="sub-nav" aria-label={`Sottopagine ${item.label}`}>
+                  <a class={currentPath === item.href ? "active" : ""} href={item.href}>Tutte le soluzioni</a>
                   {item.children.map((child) => (
                     <a class={isActive(child.href) ? "active" : ""} href={child.href}>{child.label}</a>
                   ))}
                 </div>
-              </div>
+              </details>
             ) : (
               <a class={isActive(item.href) ? "active" : ""} href={item.href}>{item.label}</a>
             )

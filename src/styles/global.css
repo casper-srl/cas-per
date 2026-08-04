@@ -127,7 +127,7 @@ a {
 }
 
 .site-nav a,
-.nav-group > a {
+.nav-group > summary {
   position: relative;
   padding: 4px 0;
   color: var(--soft-ink);
@@ -140,7 +140,9 @@ a {
 }
 
 .site-nav a:hover,
-.site-nav a.active {
+.site-nav a.active,
+.nav-group > summary:hover,
+.nav-group > summary.active {
   color: var(--ink);
   font-weight: 700;
 }
@@ -148,6 +150,34 @@ a {
 .nav-group {
   display: grid;
   gap: 8px;
+}
+
+.nav-group > summary {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nav-group > summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-group > summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  margin-left: 10px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 180ms ease;
+}
+
+.nav-group[open] > summary::after {
+  transform: rotate(225deg) translateY(-1px);
 }
 
 .sub-nav {
@@ -2435,8 +2465,33 @@ main,
     grid-column: 1 / -1;
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
     gap: 4px 14px;
     padding-top: 10px;
+  }
+
+  .nav-group {
+    position: relative;
+  }
+
+  .nav-group > summary {
+    min-height: 32px;
+  }
+
+  .nav-group[open] .sub-nav {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 40;
+    min-width: 230px;
+    padding: 12px 14px;
+    border: 1px solid rgba(5, 162, 194, 0.14);
+    border-left: 4px solid var(--teal);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 18px 40px rgba(23, 43, 49, 0.12);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
   }
 
   .site-nav a::before {
@@ -2507,6 +2562,17 @@ main,
 @media (max-width: 600px) {
   .site-header {
     grid-template-columns: 1fr;
+  }
+
+  .site-nav {
+    gap: 4px 12px;
+  }
+
+  .nav-group[open] .sub-nav {
+    position: static;
+    min-width: 100%;
+    margin-top: 4px;
+    box-shadow: none;
   }
 
   .header-cta,
