@@ -43,7 +43,7 @@ const isActive = (href: string) => {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="casper-deploy-check" content="2026-08-05T16:46:00+02:00" />
+    <meta name="casper-deploy-check" content="2026-08-05T17:02:00+02:00" />
     <title>{title}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- Google Tag Manager -->
@@ -83,8 +83,14 @@ const isActive = (href: string) => {
       <a class="brand" href="/" aria-label="Cas-Per home">
         <img class="brand-logo" src="/assets/logo-casper.webp" alt="Cas-Per" />
       </a>
+      <button class="mobile-menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
+        <span class="menu-line"></span>
+        <span class="menu-line"></span>
+        <span class="menu-line"></span>
+        <span class="sr-only">Apri menu</span>
+      </button>
       <p class="rail-claim">Tecnologia, relazione, memoria.</p>
-      <nav class="site-nav" aria-label="Navigazione principale">
+      <nav id="site-navigation" class="site-nav" aria-label="Navigazione principale">
         {
           nav.map((item) =>
             item.children ? (
@@ -135,6 +141,9 @@ const isActive = (href: string) => {
     <script is:inline>
       (() => {
         const mobileNav = window.matchMedia("(max-width: 1060px)");
+        const header = document.querySelector(".site-header");
+        const toggle = document.querySelector(".mobile-menu-toggle");
+        const nav = document.querySelector("#site-navigation");
         const groups = document.querySelectorAll(".site-nav details.nav-group");
 
         const closeMobileGroups = () => {
@@ -144,9 +153,35 @@ const isActive = (href: string) => {
           });
         };
 
+        const setMenuOpen = (isOpen) => {
+          header?.classList.toggle("menu-open", isOpen);
+          toggle?.setAttribute("aria-expanded", String(isOpen));
+          document.body.classList.toggle("mobile-menu-open", isOpen);
+        };
+
         closeMobileGroups();
+        setMenuOpen(false);
+
+        toggle?.addEventListener("click", () => {
+          setMenuOpen(!header?.classList.contains("menu-open"));
+        });
+
+        nav?.addEventListener("click", (event) => {
+          const target = event.target;
+          if (target instanceof HTMLAnchorElement && mobileNav.matches) {
+            setMenuOpen(false);
+          }
+        });
+
+        window.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") setMenuOpen(false);
+        });
+
         window.addEventListener("pageshow", closeMobileGroups);
-        mobileNav.addEventListener?.("change", closeMobileGroups);
+        mobileNav.addEventListener?.("change", () => {
+          closeMobileGroups();
+          setMenuOpen(false);
+        });
       })();
     </script>
   </body>
