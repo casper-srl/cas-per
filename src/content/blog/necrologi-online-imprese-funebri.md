@@ -4,8 +4,8 @@ description: "Come trasformare la pubblicazione dei necrologi online in un servi
 category: "Guida"
 publishedAt: 2026-08-05
 author: "Cas-Per"
-image: "/assets/necrologi-online.webp"
-imageAlt: "Consultazione di un necrologio online attraverso un dispositivo digitale"
+image: "/assets/blog-necrologi-online-casper.webp"
+imageAlt: "Illustrazione di un messaggio di cordoglio inviato da un computer"
 draft: false
 ---
 
