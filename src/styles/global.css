@@ -2466,13 +2466,15 @@ main,
   }
 
   .brand {
-    width: 112px;
-    height: 52px;
+    width: 118px;
+    height: 86px;
+    align-items: flex-start;
+    overflow: visible;
   }
 
   .brand-logo {
-    width: 112px;
-    max-width: 112px;
+    width: 118px;
+    max-width: 118px;
   }
 
   .site-nav {
@@ -2588,6 +2590,16 @@ main,
     padding: 18px clamp(18px, 6vw, 26px);
   }
 
+  .site-header .brand {
+    width: 126px;
+    height: 96px;
+  }
+
+  .site-header .brand-logo {
+    width: 126px;
+    max-width: 126px;
+  }
+
   .site-nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2654,6 +2666,7 @@ main,
 
   .memory-board {
     display: flex;
+    flex-direction: column;
     min-height: auto;
     gap: 22px;
     padding: 24px 18px;
@@ -2682,11 +2695,11 @@ main,
     inset: auto;
     order: 2;
     width: 100%;
-    min-height: 250px;
+    min-height: 210px;
   }
 
   .hero-art {
-    width: min(92%, 310px);
+    width: min(86%, 280px);
   }
 
   .board-kicker {
@@ -2698,8 +2711,8 @@ main,
   .board-title {
     order: 3;
     margin-top: 0;
-    font-size: clamp(2.05rem, 13vw, 3.2rem);
-    line-height: 0.98;
+    font-size: clamp(1.85rem, 11vw, 2.85rem);
+    line-height: 1.02;
   }
 
   .board-title::after {
@@ -2775,7 +2788,15 @@ main,
   }
 
   .brochure-page-frame {
-    height: min(72vh, 500px);
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 0.706;
+    background: var(--white);
+  }
+
+  .brochure-card {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.68);
   }
 
   .hero-proof div,
