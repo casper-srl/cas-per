@@ -175,15 +175,17 @@ const monitorGalleries = [
       <div
         class="brochure-card flipbook-card"
         data-brochure-viewer
-        data-pdf-src="/assets/cas-per-news-digitale-case-funerarie.pdf"
         aria-label="Brochure sfogliabile Il digitale per le case funerarie"
       >
-        <iframe
-          data-brochure-frame
-          src="/assets/cas-per-news-digitale-case-funerarie.pdf?view=1#page=1&zoom=page-fit&toolbar=0&navpanes=0&scrollbar=0"
-          title="Brochure Il digitale per le case funerarie"
-          loading="lazy"
-        ></iframe>
+        <div class="brochure-page-frame">
+          <img
+            data-brochure-image
+            src="/assets/brochure-monitor/page-01.png"
+            alt="Pagina 1 della brochure Il digitale per le case funerarie"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
         <div class="brochure-controls" aria-label="Controlli brochure">
           <button type="button" data-brochure-prev aria-label="Pagina precedente">&lt;</button>
           <span><strong data-brochure-current>1</strong> / 28</span>
@@ -218,8 +220,7 @@ const monitorGalleries = [
 
     if (brochureViewer) {
       const totalPages = 28;
-      const pdfSrc = brochureViewer.getAttribute("data-pdf-src");
-      const frame = brochureViewer.querySelector("[data-brochure-frame]");
+      const image = brochureViewer.querySelector("[data-brochure-image]");
       const current = brochureViewer.querySelector("[data-brochure-current]");
       const previous = brochureViewer.querySelector("[data-brochure-prev]");
       const next = brochureViewer.querySelector("[data-brochure-next]");
@@ -229,7 +230,9 @@ const monitorGalleries = [
         current.textContent = String(page);
         previous.disabled = page === 1;
         next.disabled = page === totalPages;
-        frame.src = `${pdfSrc}?view=${page}#page=${page}&zoom=page-fit&toolbar=0&navpanes=0&scrollbar=0`;
+        const paddedPage = String(page).padStart(2, "0");
+        image.src = `/assets/brochure-monitor/page-${paddedPage}.png`;
+        image.alt = `Pagina ${page} della brochure Il digitale per le case funerarie`;
       };
 
       previous.addEventListener("click", () => {

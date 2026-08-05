@@ -2063,7 +2063,6 @@ main,
 }
 
 .brochure-card {
-  min-height: 760px;
   padding: 14px;
   overflow: hidden;
   background: var(--glass-bg);
@@ -2075,13 +2074,22 @@ main,
   box-shadow: var(--glass-shadow);
 }
 
-.brochure-card iframe {
-  display: block;
+.brochure-page-frame {
+  display: grid;
   width: 100%;
   height: 700px;
+  place-items: center;
+  overflow: hidden;
   background: var(--white);
-  border: 0;
   border-radius: 8px;
+}
+
+.brochure-page-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--white);
 }
 
 .brochure-controls {
@@ -2766,12 +2774,8 @@ main,
     grid-template-columns: 1fr;
   }
 
-  .brochure-card {
-    min-height: 560px;
-  }
-
-  .brochure-card iframe {
-    height: 500px;
+  .brochure-page-frame {
+    height: min(72vh, 500px);
   }
 
   .hero-proof div,
