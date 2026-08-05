@@ -35,6 +35,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -42,6 +43,7 @@ body {
   margin: 0;
   color: var(--ink);
   background: #edf1f4;
+  overflow-x: clip;
 }
 
 body::before {
@@ -2526,6 +2528,15 @@ main,
 
   .service-ledger .service-card {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .service-ledger .service-card .eyebrow,
+  .service-ledger .service-card .text-link,
+  .service-ledger .service-card h3,
+  .service-ledger .service-card p:not(.eyebrow) {
+    grid-column: 1;
+    max-width: none;
   }
 
   .monitor-gallery-card {
@@ -2562,10 +2573,24 @@ main,
 @media (max-width: 600px) {
   .site-header {
     grid-template-columns: 1fr;
+    padding: 18px clamp(18px, 6vw, 26px);
   }
 
   .site-nav {
-    gap: 4px 12px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 16px;
+  }
+
+  .site-nav a,
+  .nav-group > summary {
+    font-size: clamp(0.98rem, 5vw, 1.18rem);
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  .nav-group {
+    grid-column: span 2;
   }
 
   .nav-group[open] .sub-nav {
@@ -2575,6 +2600,16 @@ main,
     box-shadow: none;
   }
 
+  .sub-nav {
+    gap: 8px;
+    padding: 8px 0 8px 18px;
+  }
+
+  .sub-nav a {
+    font-size: 0.9rem;
+    line-height: 1.35;
+  }
+
   .header-cta,
   .button,
   .hero-actions {
@@ -2582,7 +2617,13 @@ main,
   }
 
   .hero {
-    padding-top: 42px;
+    min-height: auto;
+    padding: 42px clamp(18px, 6vw, 26px);
+  }
+
+  .section,
+  .page-hero {
+    padding: 54px clamp(18px, 6vw, 26px);
   }
 
   .hero h1,
@@ -2597,6 +2638,73 @@ main,
 
   .board-flow {
     grid-template-columns: 1fr;
+  }
+
+  .memory-board {
+    display: flex;
+    min-height: auto;
+    gap: 22px;
+    padding: 24px 18px;
+    align-content: start;
+  }
+
+  .memory-board::before {
+    inset: 14px;
+  }
+
+  .hero-badge {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: min(100%, 280px);
+    max-width: none;
+    align-self: flex-end;
+  }
+
+  .hero-badge strong {
+    font-size: 1.05rem;
+  }
+
+  .hero-art-wrap {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: 100%;
+    min-height: 250px;
+  }
+
+  .hero-art {
+    width: min(92%, 310px);
+  }
+
+  .board-kicker {
+    order: 1;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .board-title {
+    order: 3;
+    margin-top: 0;
+    font-size: clamp(2.05rem, 13vw, 3.2rem);
+    line-height: 0.98;
+  }
+
+  .board-title::after {
+    width: 42%;
+    height: 5px;
+    margin-top: 18px;
+  }
+
+  .board-flow {
+    order: 4;
+    margin-top: 0;
+  }
+
+  .board-note {
+    order: 5;
+    margin-top: 0;
+    font-size: 0.98rem;
   }
 
   .hero-proof {
@@ -2620,16 +2728,9 @@ main,
     grid-template-columns: 1fr;
   }
 
+  .rip-section .rip-map,
   .rip-map {
-    min-height: 560px;
-  }
-
-  .hero-art-wrap {
-    inset: 126px 12px auto 12px;
-  }
-
-  .hero-art {
-    width: min(92%, 360px);
+    min-height: auto;
   }
 
   .asset-panel {
@@ -2687,6 +2788,37 @@ main,
 
   .team-card {
     grid-template-columns: 1fr;
+  }
+
+  .site-footer {
+    gap: 22px;
+    padding: 40px clamp(18px, 6vw, 26px);
+  }
+
+  .footer-brand {
+    display: block;
+    width: 118px;
+    height: auto;
+    margin-bottom: 18px;
+    overflow: visible;
+  }
+
+  .footer-logo {
+    width: 118px;
+    max-width: 118px;
+  }
+
+  .site-footer p {
+    max-width: 100%;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .footer-links {
+    gap: 12px;
+    font-size: 1rem;
+    line-height: 1.45;
   }
 }
 
