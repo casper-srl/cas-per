@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { primaryCtaLabel, whatsappHref } from "../data/contact";
 
 const pastEditions = [
   { name: "Nimis 2021", img: "/assets/nimis-21.jpg", url: "https://www.rip-party.it/nimis-2021" },
@@ -39,7 +40,7 @@ const pastEditions = [
         <p class="eyebrow">Prossimo appuntamento</p>
         <h2>Abruzzo</h2>
         <p class="event-date" style="color: var(--teal-deep); font-weight: 700; margin-top: 10px;">settembre 2026</p>
-        <a class="button primary" href="https://wa.me/393408384217" target="_blank" rel="noopener" style="margin-top: 20px;">Richiedi informazioni</a>
+        <a class="button primary" href={whatsappHref} target="_blank" rel="noopener" style="margin-top: 20px;">{primaryCtaLabel}</a>
       </div>
       <div class="rich-text" style="display: flex; flex-direction: column; justify-content: center;">
         <p>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { primaryCtaLabel, whatsappHref } from "../../data/contact";
 ---
 
 <BaseLayout
@@ -16,7 +17,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           un unico ambiente digitale.
         </p>
         <div class="hero-actions">
-          <a class="button primary" href="https://wa.me/393408384217">Chiedi informazioni</a>
+          <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
           <a class="button secondary" href="/soluzioni/">Tutte le soluzioni</a>
         </div>
       </div>
@@ -102,7 +103,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           Eterno aiuta a vedere l'attività in modo più ordinato: dalla raccolta dati con i familiari alla documentazione,
           dalla grafica alla fatturazione, anche da smartphone.
         </p>
-        <a class="button primary" href="https://wa.me/393408384217">Parla con noi</a>
+        <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
       </div>
     </div>
   </section>

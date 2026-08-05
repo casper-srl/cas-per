@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import ArticleCard from "../../components/ArticleCard.astro";
+import PageHero from "../../components/PageHero.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+---
+
+<BaseLayout
+  title="News e guide per imprese funebri | Cas-Per"
+  description="Approfondimenti su necrologi online, cordogli, strumenti digitali ed evoluzione delle imprese funebri."
+  canonical="/news/"
+>
+  <div class="glass-bg-blobs" aria-hidden="true">
+    <div class="blob-circle blob-cyan" style="top: 10%; right: 10%; width: 400px; height: 400px; opacity: 0.15;"></div>
+    <div class="blob-circle blob-mauve" style="top: 40%; left: 5%; width: 320px; height: 320px; opacity: 0.12;"></div>
+  </div>
+  <PageHero
+    eyebrow="News"
+    title="Strumenti, esperienze e cultura digitale per imprese funebri."
+    text="Guide concrete per orientarsi tra annunci online, cordogli, comunicazione con le famiglie e servizi digitali."
+  />
+
+  <section class="section">
+    <div class="section-inner article-grid">
+      {
+        posts.length > 0 ? (
+          posts.map((post) => (
+            <ArticleCard
+              title={post.data.title}
+              description={post.data.description}
+              category={post.data.category}
+              publishedAt={post.data.publishedAt}
+              href={`/news/${post.slug}/`}
+              image={post.data.image}
+              imageAlt={post.data.imageAlt}
+            />
+          ))
+        ) : (
+          <div class="empty-state">
+            <p class="eyebrow">In preparazione</p>
+            <h2>I primi approfondimenti stanno arrivando.</h2>
+            <p>Partiremo da AnnunciFunebri.it, dalla raccolta dei cordogli e dal ruolo del digitale nel lavoro quotidiano dell'impresa funebre.</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

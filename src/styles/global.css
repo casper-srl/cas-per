@@ -258,30 +258,6 @@ a {
   border-radius: 4px;
 }
 
-.rail-social {
-  display: flex;
-  gap: 8px;
-}
-
-.rail-social span {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  color: var(--ink);
-  border: 1px solid var(--line-dark);
-  border-radius: 50%;
-  font-size: 0.76rem;
-  font-weight: 850;
-  transition: color 180ms ease, border-color 180ms ease, transform 180ms ease;
-}
-
-.rail-social span:hover {
-  color: var(--teal-deep);
-  border-color: var(--teal);
-  transform: translateY(-2px);
-}
-
 .human-stack {
   display: flex;
   align-items: center;
@@ -543,6 +519,122 @@ main,
   font-weight: 850;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.cta-note {
+  margin: 10px 0 0;
+  color: var(--soft-ink);
+  font-size: 0.9rem;
+}
+
+.article-grid {
+  display: grid;
+  gap: 28px;
+}
+
+.article-card {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.75fr) minmax(0, 1.25fr);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.article-card-image {
+  min-height: 280px;
+}
+
+.article-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.article-card-body {
+  padding: clamp(28px, 5vw, 54px);
+}
+
+.article-card-body h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.empty-state {
+  max-width: 760px;
+  padding: clamp(30px, 6vw, 64px);
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.blog-article {
+  padding: clamp(70px, 10vw, 130px) 0;
+}
+
+.article-header,
+.article-content,
+.article-cta {
+  max-width: 920px;
+}
+
+.breadcrumbs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 36px;
+  color: var(--soft-ink);
+  font-size: 0.9rem;
+}
+
+.article-header h1 {
+  max-width: 850px;
+}
+
+.article-meta {
+  margin-top: 22px;
+  color: var(--soft-ink);
+}
+
+.article-cover {
+  width: 100%;
+  max-height: 520px;
+  margin-top: 42px;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.article-content {
+  padding-top: 58px;
+  font-size: 1.08rem;
+  line-height: 1.8;
+}
+
+.article-content h2,
+.article-content h3 {
+  margin-top: 2.2em;
+}
+
+.article-content a {
+  color: var(--teal-deep);
+}
+
+.article-cta {
+  margin-top: 72px;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 760px) {
+  .article-card {
+    grid-template-columns: 1fr;
+  }
+
+  .article-card-image {
+    min-height: 210px;
+  }
 }
 
 .hero-actions {
@@ -2474,10 +2566,6 @@ main,
     display: none;
   }
 
-  .rail-social {
-    display: none;
-  }
-
   .rail-claim {
     display: none;
   }
@@ -2563,6 +2651,7 @@ main,
     transform: translateY(-7px) rotate(-45deg);
   }
 
+  html.mobile-menu-open,
   body.mobile-menu-open {
     overflow: hidden;
   }
@@ -3274,5 +3363,67 @@ main,
 
   .testimonial-card.featured {
     grid-column: auto;
+  }
+}
+
+/* Mobile navigation: keep the overlay stable when the solutions group expands. */
+@media (max-width: 1060px) {
+  .site-header:not(.menu-open) .site-nav {
+    display: none;
+  }
+
+  .site-header.menu-open .site-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 132px 24px max(34px, env(safe-area-inset-bottom));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background:
+      radial-gradient(48% 34% at 84% 10%, rgba(5, 162, 194, 0.11), transparent 72%),
+      radial-gradient(42% 30% at 8% 86%, rgba(226, 180, 189, 0.09), transparent 74%),
+      #f7fafb;
+    scrollbar-width: none;
+  }
+
+  .site-header.menu-open .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-header.menu-open .site-nav > a,
+  .site-header.menu-open .nav-group > summary {
+    flex: 0 0 auto;
+    text-align: center;
+  }
+
+  .site-header.menu-open .nav-group {
+    flex: 0 0 auto;
+    width: min(100%, 320px);
+  }
+
+  .site-header.menu-open .nav-group > summary {
+    justify-content: center;
+  }
+
+  .site-header.menu-open .nav-group > summary::after {
+    position: absolute;
+    right: 18px;
+  }
+
+  .site-header.menu-open .nav-group[open] .sub-nav {
+    width: 100%;
+    margin: 6px 0 2px;
+    padding: 10px 14px;
+  }
+
+  body.mobile-menu-open #brevo-conversations,
+  body.mobile-menu-open .iubenda-tp-btn {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 }

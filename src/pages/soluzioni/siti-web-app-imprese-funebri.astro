@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { primaryCtaLabel, whatsappHref } from "../../data/contact";
 
 const portfolioSites = [
   {
@@ -67,7 +68,7 @@ const portfolioSites = [
           informazioni utili in un momento delicato.
         </p>
         <div class="hero-actions">
-          <a class="button primary" href="https://wa.me/393408384217">Parliamo del tuo sito</a>
+          <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
           <a class="button secondary" href="/soluzioni/">Tutte le soluzioni</a>
         </div>
       </div>
@@ -213,7 +214,7 @@ const portfolioSites = [
           È una scelta utile per imprese che vogliono rafforzare la propria presenza digitale e offrire un servizio
           continuativo alla comunità.
         </p>
-        <a class="button primary" href="https://wa.me/393408384217">Richiedi una consulenza</a>
+        <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
       </div>
     </div>
   </section>

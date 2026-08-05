@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
+import { primaryCtaLabel, whatsappHref } from "../data/contact";
 
 const monitorTestimonials = [
   {
@@ -250,7 +251,7 @@ const getInitials = (name: string) =>
           La demo è guidata: preferiamo conoscere come lavori, quali servizi offri e dove la tecnologia può aiutarti
           davvero.
         </p>
-        <a class="button primary" href="https://wa.me/393408384217">Scrivici su WhatsApp</a>
+        <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
       </div>
     </div>
   </section>

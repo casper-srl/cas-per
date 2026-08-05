@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { primaryCtaLabel, whatsappHref } from "../../data/contact";
 ---
 
 <BaseLayout
@@ -16,7 +17,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           e trasformare il digitale in un servizio concreto e curato.
         </p>
         <div class="hero-actions">
-          <a class="button primary" href="https://wa.me/393408384217">Richiedi una demo</a>
+          <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
           <a class="button secondary" href="/soluzioni/">Tutte le soluzioni</a>
         </div>
       </div>
@@ -90,7 +91,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           vicinanza e permette all'impresa di offrire un'esperienza ordinata, moderna e coerente con il proprio modo di
           lavorare.
         </p>
-        <a class="button primary" href="https://wa.me/393408384217">Parliamone su WhatsApp</a>
+        <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
       </div>
     </div>
   </section>

@@ -1,0 +1,69 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
+
+interface Props {
+  entry: CollectionEntry<"blog">;
+}
+
+const { entry } = Astro.props;
+const { title, description, category, publishedAt, updatedAt, author, image, imageAlt } = entry.data;
+const formattedDate = new Intl.DateTimeFormat("it-IT", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+}).format(publishedAt);
+const canonical = `/news/${entry.slug}/`;
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  image: new URL(image, Astro.site).toString(),
+  datePublished: publishedAt.toISOString(),
+  dateModified: (updatedAt ?? publishedAt).toISOString(),
+  author: { "@type": "Organization", name: author },
+  publisher: {
+    "@type": "Organization",
+    name: "Cas-Per",
+    logo: { "@type": "ImageObject", url: new URL("/assets/logo-casper.webp", Astro.site).toString() },
+  },
+  mainEntityOfPage: new URL(canonical, Astro.site).toString(),
+};
+---
+
+<BaseLayout
+  title={`${title} | Cas-Per`}
+  description={description}
+  canonical={canonical}
+  image={image}
+  type="article"
+  publishedTime={publishedAt.toISOString()}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article class="blog-article">
+    <header class="article-header section-inner">
+      <nav class="breadcrumbs" aria-label="Percorso">
+        <a href="/">Home</a><span aria-hidden="true">/</span><a href="/news/">News</a>
+      </nav>
+      <p class="eyebrow">{category}</p>
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+      <p class="article-meta">{formattedDate} · a cura di {author}</p>
+      <img class="article-cover" src={image} alt={imageAlt} />
+    </header>
+
+    <div class="article-content section-inner">
+      <slot />
+    </div>
+
+    <aside class="article-cta section-inner">
+      <p class="eyebrow">Vuoi capire cosa può essere utile alla tua impresa?</p>
+      <h2>Partiamo dalle tue esigenze reali.</h2>
+      <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
+      <p class="cta-note">{primaryCtaNote}</p>
+    </aside>
+  </article>
+</BaseLayout>

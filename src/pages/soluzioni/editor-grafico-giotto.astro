@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { primaryCtaLabel, whatsappHref } from "../../data/contact";
 ---
 
 <BaseLayout
@@ -16,7 +17,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           lavoro mantenendo uno stile curato e riconoscibile.
         </p>
         <div class="hero-actions">
-          <a class="button primary" href="https://wa.me/393408384217">Chiedi informazioni</a>
+          <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
           <a class="button secondary" href="/soluzioni/">Tutte le soluzioni</a>
         </div>
       </div>
@@ -120,7 +121,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           L'obiettivo non è sostituire il gusto dell'impresa, ma darle uno strumento rapido per produrre grafiche coerenti
           e professionali.
         </p>
-        <a class="button primary" href="https://wa.me/393408384217">Vedi Giotto in una demo</a>
+        <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
       </div>
     </div>
   </section>

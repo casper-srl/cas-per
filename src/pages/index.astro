@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ServiceCard from "../components/ServiceCard.astro";
+import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
 ---
 
 <BaseLayout>
@@ -24,9 +25,10 @@ import ServiceCard from "../components/ServiceCard.astro";
         "La tecnologia funziona davvero quando diventa un gesto semplice, discreto, utile."
       </p>
       <div class="hero-actions">
-        <a class="button primary" href="https://wa.me/393408384217">Richiedi una demo</a>
-        <a class="button secondary" href="/contatti/">Contattaci</a>
+        <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
+        <a class="button secondary" href="/contatti/">Altri contatti</a>
       </div>
+      <p class="cta-note">{primaryCtaNote}</p>
       <div class="hero-proof" aria-label="Numeri AnnunciFunebri.it">
         <div><strong>200</strong><span>imprese funebri affiliate</span></div>
         <div><strong>290k</strong><span>annunci inseriti all'anno</span></div>
@@ -173,7 +175,7 @@ import ServiceCard from "../components/ServiceCard.astro";
           <p data-config-summary>
             La tua impresa gestisce circa 150 servizi e vuole integrare WhatsApp automatico, Sito web o app.
           </p>
-          <a class="button primary" data-config-cta href="https://wa.me/393408384217">Richiedi una proposta</a>
+          <a class="button primary" data-config-cta href={whatsappHref}>{primaryCtaLabel}</a>
         </div>
       </div>
     </div>
@@ -248,7 +250,7 @@ import ServiceCard from "../components/ServiceCard.astro";
             <span>prossima tappa</span>
             <strong>Abruzzo, settembre 2026</strong>
             <p>Cena, confronto e networking con imprese funebri e partner di zona.</p>
-            <a class="button primary" href="https://wa.me/393408384217" target="_blank" rel="noopener">Richiedi informazioni</a>
+            <a class="button primary" href={whatsappHref} target="_blank" rel="noopener">{primaryCtaLabel}</a>
           </div>
         </div>
       </div>
@@ -275,7 +277,7 @@ import ServiceCard from "../components/ServiceCard.astro";
       if (!range || !output || !summary || !cta) return;
       const services = range.value;
       const selected = modules.filter((input) => input.checked).map((input) => input.value);
-      const needs = selected.length ? selected.join(", ") : "una consulenza iniziale";
+      const needs = selected.length ? selected.join(", ") : "un primo orientamento";
       output.textContent = services;
       summary.textContent = `La tua impresa gestisce circa ${services} servizi e vuole integrare ${needs}. Possiamo costruire una proposta su misura per rendere più semplice la comunicazione e più curata l'esperienza delle famiglie.`;
       cta.href = `https://wa.me/393408384217?text=${encodeURIComponent(`Ciao, vorrei una proposta Cas-Per su misura. Gestiamo circa ${services} servizi annui e ci interessano: ${needs}.`)}`;

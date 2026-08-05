@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { primaryCtaLabel, whatsappHref } from "../../data/contact";
 
 const monitorGalleries = [
   {
@@ -47,7 +48,6 @@ const monitorGalleries = [
 <BaseLayout
   title="Monitor per case funerarie e vetrine | Cas-Per"
   description="Soluzioni Cas-Per per monitor ingresso, monitor stanza, tablet cordogli e vetrine digitali nelle case funerarie."
-  enableClarity={true}
 >
   <section class="page-hero solution-hero">
     <div class="section-inner split visual-split">
@@ -59,7 +59,7 @@ const monitorGalleries = [
           vetrine e aree di servizio.
         </p>
         <div class="hero-actions">
-          <a class="button primary" href="https://wa.me/393408384217">Richiedi informazioni</a>
+          <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
           <a class="button secondary" href="/soluzioni/">Tutte le soluzioni</a>
         </div>
       </div>
@@ -169,7 +169,7 @@ const monitorGalleries = [
           <a class="button primary" href="/assets/cas-per-news-digitale-case-funerarie.pdf" target="_blank" rel="noopener">
             Apri la brochure
           </a>
-          <a class="button secondary" href="https://wa.me/393408384217">Contattaci</a>
+          <a class="button secondary" href={whatsappHref}>{primaryCtaLabel}</a>
         </div>
       </div>
       <div
@@ -210,7 +210,7 @@ const monitorGalleries = [
           È un modo moderno per informare visitatori, organizzare il lavoro interno e mantenere una presenza curata negli
           spazi fisici dell'impresa.
         </p>
-        <a class="button primary" href="https://wa.me/393408384217">Rendi digitale la tua casa funeraria</a>
+        <a class="button primary" href={whatsappHref}>{primaryCtaLabel}</a>
       </div>
     </div>
   </section>

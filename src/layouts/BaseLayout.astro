@@ -1,11 +1,19 @@
 ---
 import "../styles/global.css";
+import { primaryCtaLabel, whatsappHref } from "../data/contact";
 
 const {
   title = "Cas-Per | Tecnologia e relazione per imprese funebri",
   description = "Cas-Per accompagna le imprese funebri con soluzioni digitali su misura: AnnunciFunebri.it, siti web, app, WhatsApp, streaming, monitor e assistenza diretta.",
-  enableClarity = false,
+  canonical,
+  image = "/assets/annuncifunebri_pc-1.jpg",
+  type = "website",
+  publishedTime,
+  noindex = false,
 } = Astro.props;
+
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const socialImageUrl = new URL(image, Astro.site ?? Astro.url.origin).toString();
 
 const nav = [
   { href: "/", label: "Home" },
@@ -43,9 +51,38 @@ const isActive = (href: string) => {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="casper-deploy-check" content="2026-08-05T17:02:00+02:00" />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title="Cas-Per — News" href="/rss.xml" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Cas-Per" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    <meta name="casper-deploy-check" content="2026-08-05T18:10:00+02:00" />
     <title>{title}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+        functionality_storage: "denied",
+        personalization_storage: "denied",
+        security_storage: "granted",
+        wait_for_update: 500
+      });
+    </script>
     <!-- Google Tag Manager -->
     <script is:inline>
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -55,17 +92,6 @@ const isActive = (href: string) => {
       })(window,document,'script','dataLayer','GTM-PB2XSQQQ');
     </script>
     <!-- End Google Tag Manager -->
-    {
-      enableClarity && (
-        <script is:inline>
-          (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "v0ukd0ppt6");
-        </script>
-      )
-    }
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -114,12 +140,8 @@ const isActive = (href: string) => {
           <span>C</span>
           <span>P</span>
         </div>
-        <p><strong>Demo guidata.</strong> Ti ascoltiamo, capiamo le esigenze e prepariamo una proposta su misura.</p>
-        <a href="https://wa.me/393408384217">Scrivici</a>
-      </div>
-      <div class="rail-social" aria-label="Canali social">
-        <span aria-label="Facebook">f</span>
-        <span aria-label="LinkedIn">in</span>
+        <p><strong>Informazioni su misura.</strong> Ti ascoltiamo e capiamo insieme quali soluzioni possono esserti utili.</p>
+        <a href={whatsappHref}>{primaryCtaLabel}</a>
       </div>
     </header>
     <main id="contenuto">
@@ -135,7 +157,10 @@ const isActive = (href: string) => {
       <div class="footer-links">
         <a href="mailto:info@cas-per.it">info@cas-per.it</a>
         <a href="tel:+393408384217">+39 340 838 4217</a>
-        <a href="https://wa.me/393408384217">Scrivici su WhatsApp</a>
+        <a href={whatsappHref}>{primaryCtaLabel}</a>
+        <a href="https://www.iubenda.com/privacy-policy/88572891" target="_blank" rel="noopener">Privacy policy</a>
+        <a href="https://www.iubenda.com/privacy-policy/88572891/cookie-policy" target="_blank" rel="noopener">Cookie policy</a>
+        <a href="#" class="iubenda-cs-preferences-link">Preferenze cookie</a>
       </div>
     </footer>
     <script is:inline>
@@ -156,6 +181,8 @@ const isActive = (href: string) => {
         const setMenuOpen = (isOpen) => {
           header?.classList.toggle("menu-open", isOpen);
           toggle?.setAttribute("aria-expanded", String(isOpen));
+          toggle?.setAttribute("aria-label", isOpen ? "Chiudi menu" : "Apri menu");
+          document.documentElement.classList.toggle("mobile-menu-open", isOpen);
           document.body.classList.toggle("mobile-menu-open", isOpen);
         };
 
@@ -181,6 +208,29 @@ const isActive = (href: string) => {
         mobileNav.addEventListener?.("change", () => {
           closeMobileGroups();
           setMenuOpen(false);
+        });
+
+        document.addEventListener("click", (event) => {
+          const link = event.target instanceof Element ? event.target.closest("a") : null;
+          if (!(link instanceof HTMLAnchorElement)) return;
+
+          const href = link.href;
+          const channel = href.includes("wa.me/")
+            ? "whatsapp"
+            : href.startsWith("tel:")
+              ? "telefono"
+              : href.startsWith("mailto:")
+                ? "email"
+                : null;
+
+          if (!channel) return;
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "contact_click",
+            contact_channel: channel,
+            link_text: link.textContent?.trim() ?? "",
+            page_path: window.location.pathname,
+          });
         });
       })();
     </script>
