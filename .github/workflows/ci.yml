@@ -20,7 +20,7 @@ jobs:
       contents: write
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.inputs.tag || github.ref }}
 
@@ -35,15 +35,20 @@ jobs:
             RELEASE=true
           fi
           echo "release=$RELEASE" >> $GITHUB_OUTPUT
+          DEPLOY=false
+          if [ "$RELEASE" = "true" ] || [ "${{ startsWith(github.ref, 'refs/tags/v') }}" = "true" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            DEPLOY=true
+          fi
+          echo "deploy=$DEPLOY" >> $GITHUB_OUTPUT
 
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
         if: github.event_name != 'pull_request'
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/metadata-action@v5
+      - uses: docker/metadata-action@v6
         id: meta
         with:
           images: ghcr.io/casper-srl/cas-per
@@ -55,7 +60,7 @@ jobs:
             type=raw,value=${{ steps.version.outputs.version }},enable=${{ steps.version.outputs.release }}
             type=raw,value=${{ steps.version.outputs.major_minor }},enable=${{ steps.version.outputs.release }}
             type=raw,value=latest,enable={{is_default_branch}}
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: .
           push: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
@@ -63,10 +68,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Trigger Portainer redeploy
-        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
-        run: curl -s -X POST https://portainer-casper.cjampon.ltd/api/webhooks/80e86157-b8a1-4dbf-b41f-f045450aaa7f
 
       - name: Create version tag
         if: steps.version.outputs.release == 'true'
@@ -78,10 +79,17 @@ jobs:
 
       - name: Create GitHub Release
         if: steps.version.outputs.release == 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.version.outputs.version }}
           name: Release v${{ steps.version.outputs.version }}
           body: "Nuova release v${{ steps.version.outputs.version }} generata automaticamente tramite cambio versione in package.json."
           draft: false
           prerelease: false
+
+      - name: Trigger Portainer redeploy
+        if: steps.version.outputs.deploy == 'true'
+        run: |
+          curl -fsS --retry 3 --retry-all-errors -X POST \
+            "https://portainer-casper.cjampon.ltd/api/webhooks/72c1dfe0-402c-4cc2-9191-7a5226e0afd9?tag=${{ steps.version.outputs.version }}" \
+            -w '\nHTTP %{http_code}\n'
