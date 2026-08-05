@@ -182,6 +182,10 @@ a {
   transform: rotate(225deg) translateY(-1px);
 }
 
+.nav-group:not([open]) .sub-nav {
+  display: none;
+}
+
 .sub-nav {
   display: grid;
   gap: 6px;
