@@ -6,13 +6,12 @@ publishedAt: 2026-08-05
 author: "Cas-Per"
 image: "/assets/blog-necrologi-online-casper.webp"
 imageAlt: "Illustrazione di un messaggio di cordoglio inviato da un computer"
+intro:
+  - "Pubblicare un necrologio online non significa semplicemente trasferire sul web le informazioni che un tempo comparivano soltanto su un manifesto o su un giornale. Se il servizio è progettato con attenzione, può aiutare l'impresa funebre a informare la comunità, permettere anche a chi è lontano di partecipare e raccogliere testimonianze di vicinanza da consegnare alla famiglia."
+  - "La tecnologia, in questo contesto, ha valore quando rimane discreta e semplice. Non deve sostituire il rapporto umano: deve sostenerlo."
 showDate: false
 draft: false
 ---
-
-Pubblicare un necrologio online non significa semplicemente trasferire sul web le informazioni che un tempo comparivano soltanto su un manifesto o su un giornale. Se il servizio è progettato con attenzione, può aiutare l'impresa funebre a informare la comunità, permettere anche a chi è lontano di partecipare e raccogliere testimonianze di vicinanza da consegnare alla famiglia.
-
-La tecnologia, in questo contesto, ha valore quando rimane discreta e semplice. Non deve sostituire il rapporto umano: deve sostenerlo.
 
 ## Perché le persone cercano i necrologi online
 
