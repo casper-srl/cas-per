@@ -4,8 +4,8 @@ description: "L'ottava tappa riunisce la rete tra brindisi, dialogo e nuove coll
 category: "Evento"
 publishedAt: 2026-07-30
 author: "Cas-Per"
-image: "/assets/rip-party-staff.jpg"
-imageAlt: "Il gruppo di professionisti e partner RIP Party riunito durante una serata"
+image: "/assets/rip-party-veneto-2026.webp"
+imageAlt: "Il Castello di Roncade, sede della tappa RIP Party Veneto 2026"
 draft: false
 ---
 

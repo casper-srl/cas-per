@@ -60,15 +60,18 @@ const articleSchema = {
               {intro.map((paragraph) => <p>{paragraph}</p>)}
             </div>
           </div>
-        ) : (
-          <img class="article-cover" src={image} alt={imageAlt} />
-        )
+        ) : null
       }
     </header>
 
-    <div class:list={["article-content", "section-inner", intro?.length && "has-intro"]}>
+    <div class:list={["article-content", "section-inner", intro?.length ? "has-intro" : "has-inline-cover"]}>
+      {!intro?.length && <img class="article-cover article-cover-inline" src={image} alt={imageAlt} />}
       <slot />
     </div>
+
+    <nav class="article-back-nav section-inner" aria-label="Torna all'elenco delle notizie">
+      <a class="text-link" href="/news/">← Torna alla pagina delle notizie</a>
+    </nav>
 
     <aside class="article-cta section-inner">
       <p class="eyebrow">Vuoi capire cosa può essere utile alla tua impresa?</p>

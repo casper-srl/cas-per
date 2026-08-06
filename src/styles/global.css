@@ -578,7 +578,9 @@ main,
 }
 
 .article-card-event .article-card-image {
-  background: #dbeff1;
+  background:
+    linear-gradient(145deg, rgba(223, 248, 249, 0.96), rgba(239, 226, 244, 0.88)),
+    #eef8f8;
   isolation: isolate;
 }
 
@@ -587,8 +589,8 @@ main,
   z-index: 1;
   inset: 0;
   background:
-    linear-gradient(145deg, rgba(194, 232, 235, 0.58), rgba(72, 167, 179, 0.34)),
-    linear-gradient(to top, rgba(222, 189, 205, 0.18), transparent 62%);
+    linear-gradient(145deg, rgba(163, 225, 231, 0.48), rgba(223, 188, 218, 0.34)),
+    linear-gradient(to top, rgba(255, 255, 255, 0.32), transparent 62%);
   content: "";
   mix-blend-mode: color;
   pointer-events: none;
@@ -596,9 +598,14 @@ main,
 }
 
 .article-card-event .article-card-image img {
-  filter: grayscale(1) contrast(0.92) brightness(1.06);
+  opacity: 0.58;
+  filter: grayscale(1) contrast(0.62) brightness(1.42);
+  mix-blend-mode: multiply;
   transform: scale(1.002);
-  transition: filter 280ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 280ms ease,
+    filter 280ms ease,
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .article-card-event:hover .article-card-image::after,
@@ -608,7 +615,9 @@ main,
 
 .article-card-event:hover .article-card-image img,
 .article-card-event:focus-within .article-card-image img {
+  opacity: 1;
   filter: none;
+  mix-blend-mode: normal;
   transform: scale(1.035);
 }
 
@@ -656,6 +665,7 @@ main,
 
 .article-header,
 .article-content,
+.article-back-nav,
 .article-cta {
   max-width: 920px;
 }
@@ -732,6 +742,37 @@ main,
   margin-top: 0;
 }
 
+.article-content.has-inline-cover::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.article-content.has-inline-cover .article-cover-inline {
+  float: left;
+  width: min(44%, 380px);
+  aspect-ratio: 4 / 3;
+  max-height: 360px;
+  margin: 0 clamp(26px, 4vw, 46px) 28px 0;
+  object-fit: cover;
+}
+
+.article-content.has-inline-cover .article-cover-inline + * {
+  margin-top: 0;
+}
+
+.article-back-nav {
+  margin-top: 48px;
+}
+
+.article-back-nav .text-link {
+  color: var(--teal-deep);
+}
+
+.article-back-nav + .article-cta {
+  margin-top: 40px;
+}
+
 .article-cta {
   margin-top: 72px;
   padding-top: 48px;
@@ -763,6 +804,13 @@ main,
   .article-intro-grid .article-cover {
     min-height: 220px;
     max-height: 320px;
+  }
+
+  .article-content.has-inline-cover .article-cover-inline {
+    float: none;
+    width: 100%;
+    max-height: 320px;
+    margin: 0 0 28px;
   }
 }
 
