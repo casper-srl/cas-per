@@ -12,9 +12,9 @@ const categoryDefinitions = [
   { key: "guide", label: "Guide", aliases: ["guida", "guide"] },
   { key: "eventi", label: "Eventi", aliases: ["evento", "eventi"] },
   {
-    key: "approfondimenti",
-    label: "Approfondimenti",
-    aliases: ["news", "approfondimento", "approfondimenti"],
+    key: "notizie",
+    label: "Notizie",
+    aliases: ["news", "notizia", "notizie", "approfondimento", "approfondimenti"],
   },
 ];
 
@@ -41,7 +41,7 @@ const sections = [...categorySections, ...otherCategories];
 
 <BaseLayout
   title="News e guide per imprese funebri | Cas-Per"
-  description="Approfondimenti su necrologi online, cordogli, strumenti digitali ed evoluzione delle imprese funebri."
+  description="Notizie e guide su necrologi online, cordogli, strumenti digitali ed evoluzione delle imprese funebri."
   canonical="/news/"
 >
   <div class="glass-bg-blobs" aria-hidden="true">
@@ -83,7 +83,7 @@ const sections = [...categorySections, ...otherCategories];
         ) : (
           <div class="empty-state">
             <p class="eyebrow">In preparazione</p>
-            <h2>I primi approfondimenti stanno arrivando.</h2>
+            <h2>Le prime notizie stanno arrivando.</h2>
             <p>Partiremo da AnnunciFunebri.it, dalla raccolta dei cordogli e dal ruolo del digitale nel lavoro quotidiano dell'impresa funebre.</p>
           </div>
         )
