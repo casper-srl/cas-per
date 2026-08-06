@@ -570,7 +570,7 @@ main,
 }
 
 .blog-article {
-  padding: clamp(70px, 10vw, 130px) 0;
+  padding: clamp(70px, 10vw, 130px) clamp(20px, 5vw, 48px);
 }
 
 .article-header,
