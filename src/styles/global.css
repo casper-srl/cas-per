@@ -588,8 +588,9 @@ main,
   text-decoration: none;
 }
 
-.article-card-body h2 {
-  font-size: clamp(1.35rem, 2vw, 1.7rem);
+.section .article-card-body h2 {
+  font-size: clamp(20px, 1.35vw, 22px);
+  line-height: 1.2;
 }
 
 .article-card-body .text-link {
