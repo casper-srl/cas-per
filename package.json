@@ -7,10 +7,16 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "check:tracking": "node scripts/check-tracking.mjs",
+    "audit:prod": "npm audit --omit=dev --audit-level=high",
+    "check": "npm run check:secrets && npm run audit:prod"
   },
   "dependencies": {
-    "astro": "^4.16.18"
+    "astro": "^7.1.6"
   },
-  "devDependencies": {}
+  "engines": {
+    "node": ">=22.12.0"
+  }
 }

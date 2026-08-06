@@ -14,7 +14,7 @@ const formattedDate = new Intl.DateTimeFormat("it-IT", {
   month: "long",
   year: "numeric",
 }).format(publishedAt);
-const canonical = `/news/${entry.slug}/`;
+const canonical = `/news/${entry.id}/`;
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",

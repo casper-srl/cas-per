@@ -8,46 +8,111 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag to build and push (e.g. v0.1.0)'
+        description: 'Tag to build and deploy (e.g. v1.0.12)'
         required: false
         type: string
 
+permissions:
+  contents: read
+
 jobs:
-  docker:
-    name: Build & Push Docker
+  build:
+    name: Build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
     steps:
       - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.inputs.tag || github.ref }}
 
+      - name: Resolve source commit
+        id: source
+        run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check repository
+        run: npm run check
+
+      - name: Build Astro site
+        env:
+          PUBLIC_BUILD_SHA: ${{ steps.source.outputs.commit }}
+        run: npm run build
+
+      - name: Verify consent-first tracking markup
+        run: npm run check:tracking
+
+      - name: Verify generated routes and commit marker
+        env:
+          EXPECTED_COMMIT: ${{ steps.source.outputs.commit }}
+        run: |
+          test -f dist/index.html
+          test -f dist/promo-case-funerarie/index.html
+          test -f dist/lp/monitor-structure-demo/email/index.html
+          test -f dist/lp/monitor-structure-demo/whatsapp/index.html
+          test "$(jq -r .commit dist/version.json)" = "$EXPECTED_COMMIT"
+
+      - name: Build production image
+        run: |
+          docker build \
+            --build-arg PUBLIC_BUILD_SHA="${{ steps.source.outputs.commit }}" \
+            --tag cas-per-ci .
+
+  publish:
+    name: Publish production image
+    if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      commit: ${{ steps.source.outputs.commit }}
+      deploy: ${{ steps.version.outputs.deploy }}
+      release: ${{ steps.version.outputs.release }}
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+
+      - name: Resolve source commit
+        id: source
+        run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
       - name: Read version and detect new release
         id: version
+        shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "major_minor=${VERSION%.*}" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "major_minor=${VERSION%.*}" >> "$GITHUB_OUTPUT"
+
           RELEASE=false
           if [ "${{ github.ref }}" = "refs/heads/main" ] && ! git ls-remote --tags origin "v$VERSION" | grep -q "refs/tags/v$VERSION"; then
             RELEASE=true
           fi
-          echo "release=$RELEASE" >> $GITHUB_OUTPUT
+          echo "release=$RELEASE" >> "$GITHUB_OUTPUT"
+
           DEPLOY=false
           if [ "$RELEASE" = "true" ] || [ "${{ startsWith(github.ref, 'refs/tags/v') }}" = "true" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             DEPLOY=true
           fi
-          echo "deploy=$DEPLOY" >> $GITHUB_OUTPUT
+          echo "deploy=$DEPLOY" >> "$GITHUB_OUTPUT"
 
       - uses: docker/setup-buildx-action@v4
+
       - uses: docker/login-action@v4
-        if: github.event_name != 'pull_request'
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: docker/metadata-action@v6
         id: meta
         with:
@@ -60,36 +125,111 @@ jobs:
             type=raw,value=${{ steps.version.outputs.version }},enable=${{ steps.version.outputs.release }}
             type=raw,value=${{ steps.version.outputs.major_minor }},enable=${{ steps.version.outputs.release }}
             type=raw,value=latest,enable={{is_default_branch}}
+
       - uses: docker/build-push-action@v7
         with:
           context: .
-          push: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
+          push: true
+          build-args: |
+            PUBLIC_BUILD_SHA=${{ steps.source.outputs.commit }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  deploy:
+    name: Deploy production
+    if: ${{ needs.publish.outputs.deploy == 'true' }}
+    needs: publish
+    runs-on: ubuntu-latest
+    concurrency:
+      group: cas-per-production
+      cancel-in-progress: false
+    environment:
+      name: production
+      url: ${{ vars.PRODUCTION_BASE_URL }}
+    steps:
+      - name: Load deploy secret from Bitwarden
+        uses: bitwarden/sm-action@v3
+        with:
+          access_token: ${{ secrets.BWS_ACCESS_TOKEN }}
+          secrets: |
+            ${{ vars.BWS_PORTAINER_WEBHOOK_SECRET_ID }} > PORTAINER_WEBHOOK_URL
+
+      - name: Trigger Portainer redeploy
+        env:
+          VERSION: ${{ needs.publish.outputs.version }}
+        shell: bash
+        run: |
+          test -n "$PORTAINER_WEBHOOK_URL"
+          RESPONSE_FILE="$RUNNER_TEMP/portainer-response.txt"
+          HTTP_STATUS=$(curl \
+            --fail-with-body \
+            --silent \
+            --show-error \
+            --retry 3 \
+            --retry-all-errors \
+            --request POST \
+            --output "$RESPONSE_FILE" \
+            --write-out "%{http_code}" \
+            "$PORTAINER_WEBHOOK_URL?tag=$VERSION")
+          echo "Portainer HTTP $HTTP_STATUS"
+          if grep -Eiq 'service[[:space:]_-]+not[[:space:]_-]+found|"error"[[:space:]]*:[[:space:]]*(true|"[^\"]+")' "$RESPONSE_FILE"; then
+            echo "Portainer reported a deployment error."
+            exit 1
+          fi
+
+      - name: Smoke test deployed commit
+        env:
+          PRODUCTION_BASE_URL: ${{ vars.PRODUCTION_BASE_URL }}
+          EXPECTED_COMMIT: ${{ needs.publish.outputs.commit }}
+        shell: bash
+        run: |
+          test -n "$PRODUCTION_BASE_URL"
+          BASE_URL="${PRODUCTION_BASE_URL%/}"
+          for attempt in $(seq 1 18); do
+            ACTUAL_COMMIT=$(curl --fail --silent --show-error "$BASE_URL/version.json?attempt=$attempt" | jq -r .commit 2>/dev/null || true)
+            if [ "$ACTUAL_COMMIT" = "$EXPECTED_COMMIT" ] \
+              && curl --fail --silent --show-error "$BASE_URL/" >/dev/null \
+              && curl --fail --silent --show-error "$BASE_URL/lp/monitor-structure-demo/email/" >/dev/null \
+              && curl --fail --silent --show-error "$BASE_URL/lp/monitor-structure-demo/whatsapp/" >/dev/null \
+              && curl --fail --location --silent --show-error "$BASE_URL/promo-case-funerarie/" >/dev/null; then
+              echo "Production exposes commit $EXPECTED_COMMIT."
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Production did not expose expected commit $EXPECTED_COMMIT within three minutes."
+          exit 1
+
+  release:
+    name: Create version release
+    if: ${{ always() && needs.publish.result == 'success' && needs.publish.outputs.release == 'true' && needs.deploy.result == 'success' }}
+    needs:
+      - publish
+      - deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.publish.outputs.commit }}
+
       - name: Create version tag
-        if: steps.version.outputs.release == 'true'
+        env:
+          VERSION: ${{ needs.publish.outputs.version }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
-          git push origin "v${{ steps.version.outputs.version }}"
+          git tag "v$VERSION" -m "Release v$VERSION"
+          git push origin "v$VERSION"
 
       - name: Create GitHub Release
-        if: steps.version.outputs.release == 'true'
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: v${{ steps.version.outputs.version }}
-          name: Release v${{ steps.version.outputs.version }}
-          body: "Nuova release v${{ steps.version.outputs.version }} generata automaticamente tramite cambio versione in package.json."
+          tag_name: v${{ needs.publish.outputs.version }}
+          name: Release v${{ needs.publish.outputs.version }}
+          body: "Nuova release v${{ needs.publish.outputs.version }} distribuita e verificata in produzione."
           draft: false
           prerelease: false
-
-      - name: Trigger Portainer redeploy
-        if: steps.version.outputs.deploy == 'true'
-        run: |
-          curl -fsS --retry 3 --retry-all-errors -X POST \
-            "https://portainer-casper.cjampon.ltd/api/webhooks/72c1dfe0-402c-4cc2-9191-7a5226e0afd9?tag=${{ steps.version.outputs.version }}" \
-            -w '\nHTTP %{http_code}\n'
