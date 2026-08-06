@@ -4,7 +4,7 @@ description: "Come offrire la partecipazione a distanza con semplicità, riserva
 category: "Guida"
 publishedAt: 2026-08-06
 author: "Cas-Per"
-image: "/assets/blog-streaming-cerimonia-casper.webp"
+image: "/assets/blog-streaming-cerimonia-casper-v2.webp"
 imageAlt: "Illustrazione di una cerimonia trasmessa in diretta su un computer"
 intro:
   - "Non tutte le persone che desiderano partecipare a una cerimonia funebre possono essere presenti. La distanza, le condizioni di salute o un impedimento improvviso possono rendere impossibile raggiungere il luogo delle esequie."
