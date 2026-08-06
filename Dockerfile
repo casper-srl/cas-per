@@ -3,6 +3,9 @@
 FROM public.ecr.aws/docker/library/node:24.16-alpine3.24 AS build
 WORKDIR /app
 
+ARG PUBLIC_BUILD_SHA=local
+ENV PUBLIC_BUILD_SHA=$PUBLIC_BUILD_SHA
+
 COPY package*.json ./
 RUN npm ci
 

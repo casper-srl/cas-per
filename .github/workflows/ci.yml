@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ['**']
+    branches: [main]
     tags: ['v*']
   pull_request:
   workflow_dispatch:
@@ -13,6 +13,48 @@ on:
         type: string
 
 jobs:
+  checks:
+    name: Build Astro
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Resolve source commit
+        id: source
+        run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check repository
+        run: npm run check
+
+      - name: Build Astro site
+        env:
+          PUBLIC_BUILD_SHA: ${{ steps.source.outputs.commit }}
+        run: npm run build
+
+      - name: Verify consent-first tracking markup
+        run: npm run check:tracking
+
+      - name: Verify generated routes and commit marker
+        env:
+          EXPECTED_COMMIT: ${{ steps.source.outputs.commit }}
+        run: |
+          test -f dist/index.html
+          test -f dist/promo-case-funerarie/index.html
+          test -f dist/lp/monitor-structure-demo/email/index.html
+          test -f dist/lp/monitor-structure-demo/whatsapp/index.html
+          test "$(jq -r .commit dist/version.json)" = "$EXPECTED_COMMIT"
+
   docker:
     name: Build & Push Docker
     runs-on: ubuntu-latest
@@ -89,7 +131,10 @@ jobs:
 
       - name: Trigger Portainer redeploy
         if: steps.version.outputs.deploy == 'true'
+        env:
+          PORTAINER_WEBHOOK_URL: ${{ secrets.PORTAINER_WEBHOOK_URL }}
         run: |
+          test -n "$PORTAINER_WEBHOOK_URL"
           curl -fsS --retry 3 --retry-all-errors -X POST \
-            "https://portainer-casper.cjampon.ltd/api/webhooks/72c1dfe0-402c-4cc2-9191-7a5226e0afd9?tag=${{ steps.version.outputs.version }}" \
+            "$PORTAINER_WEBHOOK_URL?tag=${{ steps.version.outputs.version }}" \
             -w '\nHTTP %{http_code}\n'

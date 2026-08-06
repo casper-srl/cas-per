@@ -10,8 +10,8 @@ export async function GET({ site }: { site: URL }) {
     <item>
       <title><![CDATA[${post.data.title}]]></title>
       <description><![CDATA[${post.data.description}]]></description>
-      <link>${new URL(`/news/${post.slug}/`, site)}</link>
-      <guid>${new URL(`/news/${post.slug}/`, site)}</guid>
+      <link>${new URL(`/news/${post.id}/`, site)}</link>
+      <guid>${new URL(`/news/${post.id}/`, site)}</guid>
       <pubDate>${post.data.publishedAt.toUTCString()}</pubDate>
     </item>`,
     )

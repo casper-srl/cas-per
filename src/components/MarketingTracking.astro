@@ -1,0 +1,67 @@
+---
+import defaults from "../data/marketingTracking.json";
+
+const config = {
+  iubendaSiteId: Number(import.meta.env.PUBLIC_IUBENDA_SITE_ID || defaults.iubendaSiteId),
+  iubendaPolicyId: Number(import.meta.env.PUBLIC_IUBENDA_COOKIE_POLICY_ID || defaults.iubendaPolicyId),
+  gtmId: import.meta.env.PUBLIC_GTM_ID || defaults.gtmId,
+};
+
+const trackingConfigured = Boolean(config.iubendaSiteId && config.iubendaPolicyId && config.gtmId);
+---
+
+{
+  trackingConfigured && (
+    <>
+      <script is:inline define:vars={{ config }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ window.dataLayer.push(arguments); }
+        window.gtag = window.gtag || gtag;
+
+        window.gtag("consent", "default", {
+          ad_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+          analytics_storage: "denied",
+          functionality_storage: "denied",
+          personalization_storage: "denied",
+          security_storage: "granted",
+          wait_for_update: 500
+        });
+        window.gtag("set", "ads_data_redaction", true);
+        window.gtag("set", "url_passthrough", true);
+
+        window._iub = window._iub || [];
+        window._iub.csConfiguration = {
+          siteId: config.iubendaSiteId,
+          cookiePolicyId: config.iubendaPolicyId,
+          lang: "it",
+          purposes: "1,2,3,4,5",
+          consentOnContinuedBrowsing: false,
+          whitelabel: false,
+          perPurposeConsent: true,
+          floatingPreferencesButtonDisplay: "bottom-right",
+          storage: { useSiteId: true },
+          googleConsentMode: true,
+          googleAdsDataRedaction: true,
+          googleUrlPassthrough: true,
+          emitGtmEvents: true,
+          banner: {
+            acceptButtonDisplay: true,
+            customizeButtonDisplay: true,
+            rejectButtonDisplay: true,
+            position: "float-top-center"
+          }
+        };
+      </script>
+      <script is:inline async src="https://cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8"></script>
+      <script is:inline define:vars={{ gtmId: config.gtmId }}>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":
+        new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src=
+        "https://www.googletagmanager.com/gtm.js?id="+encodeURIComponent(i)+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,"script","dataLayer",gtmId);
+      </script>
+    </>
+  )
+}

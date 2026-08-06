@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "planId": "95c51023e1e69a19bf7a8ab3e9f1ebfc57e7dbb345d87a05c070dc66c1173212",
+  "demo": true,
+  "campaign": {
+    "id": "monitor-structure-demo",
+    "slug": "monitor-structure-demo",
+    "name": "Monitor case funerarie - collaudo fittizio",
+    "product": "Sistema dimostrativo di monitor per ambienti funerari"
+  },
+  "audience": {
+    "description": "Imprese funebri fittizie usate esclusivamente per collaudo",
+    "territories": ["Territorio Demo Nord", "Territorio Demo Centro"]
+  },
+  "variants": [
+    {
+      "id": "email",
+      "title": "Informazioni chiare negli spazi di accoglienza",
+      "eyebrow": "Scenario dimostrativo",
+      "description": "Una pagina fittizia per verificare landing, attribuzione e contatto email senza avviare promozioni.",
+      "benefits": ["Contenuti aggiornabili da remoto", "Percorso di contatto attribuito", "Nessuna campagna reale"],
+      "cta": {
+        "type": "email",
+        "label": "Richiedi una demo via email",
+        "destination": "info@cas-per.it"
+      }
+    },
+    {
+      "id": "whatsapp",
+      "title": "Una regia digitale per accoglienza e informazioni",
+      "eyebrow": "Scenario dimostrativo",
+      "description": "Una seconda variante fittizia per verificare il contatto WhatsApp e gli eventi di misurazione.",
+      "benefits": ["URL distinto per la variante", "Messaggio precompilato", "Attribuzione completa"],
+      "cta": {
+        "type": "whatsapp",
+        "label": "Richiedi una demo su WhatsApp",
+        "destination": "393408384217"
+      }
+    }
+  ],
+  "tracking": {
+    "utm": {
+      "source": "meta",
+      "medium": "paid_social",
+      "campaign": "monitor-structure-demo"
+    },
+    "events": ["landing_view", "cta_email_click", "cta_whatsapp_click"]
+  }
+}

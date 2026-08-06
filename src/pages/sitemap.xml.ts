@@ -19,7 +19,7 @@ const staticRoutes = [
 
 export async function GET({ site }: { site: URL }) {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
-  const routes = [...staticRoutes, ...posts.map((post) => `/news/${post.slug}/`)];
+  const routes = [...staticRoutes, ...posts.map((post) => `/news/${post.id}/`)];
   const urls = routes.map((route) => `  <url><loc>${new URL(route, site)}</loc></url>`).join("\n");
 
   return new Response(

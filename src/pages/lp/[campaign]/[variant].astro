@@ -1,0 +1,185 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  const campaignModules = import.meta.glob("../../../data/marketing/*.json", { eager: true });
+  const campaigns = Object.values(campaignModules).map((module: any) => module.default);
+  return campaigns.flatMap((campaign: any) => campaign.variants.map((variant: any) => ({
+    params: { campaign: campaign.campaign.slug, variant: variant.id },
+    props: { campaign, variant },
+  })));
+}
+
+const { campaign, variant } = Astro.props;
+const defaultUtm = campaign.tracking.utm;
+const attribution = `campagna ${campaign.campaign.id}, variante ${variant.id}, utm_source ${defaultUtm.source}, utm_medium ${defaultUtm.medium}, utm_campaign ${defaultUtm.campaign}`;
+const subject = encodeURIComponent(`Cas-Per - ${attribution}`);
+const message = encodeURIComponent(`Ciao, vorrei informazioni su Cas-Per (${attribution}).`);
+const ctaHref = variant.cta.type === "email"
+  ? `mailto:${variant.cta.destination}?subject=${subject}`
+  : `https://wa.me/${variant.cta.destination}?text=${message}`;
+const ctaEvent = variant.cta.type === "email" ? "cta_email_click" : "cta_whatsapp_click";
+---
+
+<BaseLayout title={`${variant.title} | Cas-Per`} description={variant.description}>
+  <article
+    class="marketing-landing"
+    data-marketing-campaign={campaign.campaign.id}
+    data-marketing-variant={variant.id}
+    data-marketing-plan={campaign.planId}
+  >
+    <section class="marketing-hero">
+      <div class="marketing-copy">
+        {campaign.demo && <p class="demo-label">Collaudo fittizio · nessuna promozione attiva</p>}
+        <p class="eyebrow">{variant.eyebrow}</p>
+        <h1>{variant.title}</h1>
+        <p class="lead">{variant.description}</p>
+        <ul>
+          {variant.benefits.map((benefit: string) => <li>{benefit}</li>)}
+        </ul>
+        <a class="button primary" href={ctaHref} data-marketing-cta data-marketing-event={ctaEvent}>
+          {variant.cta.label}
+        </a>
+        <p class="attribution">Riferimento: {campaign.campaign.id} / {variant.id}</p>
+      </div>
+      <div class="marketing-visual" aria-label="Mockup fittizio di un monitor informativo">
+        <div class="demo-screen">
+          <span>Accoglienza digitale</span>
+          <strong>Benvenuti</strong>
+          <small>Informazioni aggiornate con discrezione</small>
+          <div aria-hidden="true"><i></i><i></i><i></i></div>
+        </div>
+        <div class="demo-stand" aria-hidden="true"></div>
+      </div>
+    </section>
+  </article>
+
+  <script is:inline define:vars={{ campaignId: campaign.campaign.id, variantId: variant.id, ctaEvent, defaultUtm }}>
+    window.dataLayer = window.dataLayer || [];
+    const query = new URLSearchParams(window.location.search);
+    const attribution = {
+      campaign: campaignId,
+      variant: variantId,
+      utm_source: query.get("utm_source") || defaultUtm.source,
+      utm_medium: query.get("utm_medium") || defaultUtm.medium,
+      utm_campaign: query.get("utm_campaign") || defaultUtm.campaign
+    };
+    window.dataLayer.push({ event: "landing_view", ...attribution });
+    document.querySelector("[data-marketing-cta]")?.addEventListener("click", () => {
+      window.dataLayer.push({ event: ctaEvent, ...attribution });
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .marketing-landing {
+    min-height: 72vh;
+    padding: clamp(42px, 8vw, 110px) clamp(22px, 6vw, 88px);
+    background:
+      radial-gradient(circle at 82% 18%, rgba(5, 162, 194, 0.18), transparent 28%),
+      linear-gradient(135deg, #ffffff, #f4fafb);
+  }
+
+  .marketing-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.7fr);
+    gap: clamp(34px, 7vw, 100px);
+    max-width: 1180px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  .marketing-copy h1 {
+    max-width: 760px;
+    margin: 12px 0 20px;
+    font-size: clamp(2.3rem, 5vw, 5rem);
+    line-height: 0.98;
+  }
+
+  .marketing-copy .lead {
+    max-width: 700px;
+  }
+
+  .marketing-copy ul {
+    display: grid;
+    gap: 10px;
+    margin: 28px 0;
+    padding-left: 22px;
+    color: var(--soft-ink);
+  }
+
+  .demo-label {
+    display: inline-flex;
+    margin: 0 0 18px;
+    padding: 7px 12px;
+    color: #6d4b00;
+    background: #fff3c4;
+    border: 1px solid #e8c85c;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .attribution {
+    margin-top: 16px;
+    color: var(--soft-ink);
+    font-size: 0.82rem;
+  }
+
+  .marketing-visual {
+    margin: 0;
+    padding: clamp(24px, 4vw, 42px);
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(5, 162, 194, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 30px 80px rgba(23, 43, 49, 0.14);
+    transform: rotate(1.5deg);
+  }
+
+  .demo-screen {
+    display: grid;
+    min-height: 340px;
+    align-content: center;
+    gap: 14px;
+    padding: clamp(24px, 3vw, 34px);
+    overflow: hidden;
+    color: white;
+    background:
+      radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.26), transparent 30%),
+      linear-gradient(145deg, #05a2c2, #17373f);
+    border: 12px solid #172b31;
+    border-radius: 14px;
+    box-shadow: 0 22px 44px rgba(23, 43, 49, 0.24);
+  }
+
+  .demo-screen span {
+    font-size: 0.74rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .demo-screen strong { font-size: clamp(1.8rem, 3vw, 2.2rem); }
+  .demo-screen small { max-width: 20rem; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; }
+  .demo-screen div { display: grid; gap: 8px; margin-top: 16px; }
+  .demo-screen i { display: block; width: 78%; height: 8px; background: rgba(255, 255, 255, 0.24); border-radius: 999px; }
+  .demo-screen i:nth-child(2) { width: 54%; }
+  .demo-screen i:nth-child(3) { width: 66%; }
+
+  .demo-stand {
+    width: 38%;
+    height: 58px;
+    margin: 0 auto;
+    background:
+      linear-gradient(90deg, transparent 0 20%, #172b31 20% 80%, transparent 80%),
+      linear-gradient(#172b31, #172b31) center bottom / 100% 10px no-repeat;
+  }
+
+  @media (max-width: 820px) {
+    .marketing-hero { grid-template-columns: 1fr; }
+    .marketing-visual { max-width: 540px; transform: none; }
+  }
+</style>
