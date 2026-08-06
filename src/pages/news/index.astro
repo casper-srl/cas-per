@@ -7,6 +7,36 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
+
+const categoryDefinitions = [
+  { key: "guide", label: "Guide", aliases: ["guida", "guide"] },
+  { key: "eventi", label: "Eventi", aliases: ["evento", "eventi"] },
+  {
+    key: "approfondimenti",
+    label: "Approfondimenti",
+    aliases: ["news", "approfondimento", "approfondimenti"],
+  },
+];
+
+const normalizeCategory = (category: string) => category.trim().toLocaleLowerCase("it-IT");
+const knownAliases = new Set(categoryDefinitions.flatMap(({ aliases }) => aliases));
+const categorySections = categoryDefinitions
+  .map(({ key, label, aliases }) => ({
+    key,
+    label,
+    posts: posts.filter((post) => aliases.includes(normalizeCategory(post.data.category))),
+  }))
+  .filter(({ posts }) => posts.length > 0);
+
+const otherCategories = [...new Set(posts.map((post) => post.data.category))]
+  .filter((category) => !knownAliases.has(normalizeCategory(category)))
+  .map((category) => ({
+    key: normalizeCategory(category).replace(/[^a-z0-9]+/g, "-"),
+    label: category,
+    posts: posts.filter((post) => post.data.category === category),
+  }));
+
+const sections = [...categorySections, ...otherCategories];
 ---
 
 <BaseLayout
@@ -24,21 +54,31 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
     text="Guide concrete per orientarsi tra annunci online, cordogli, comunicazione con le famiglie e servizi digitali."
   />
 
-  <section class="section">
-    <div class="section-inner article-grid">
+  <section class="section news-index-section">
+    <div class="section-inner news-category-list">
       {
         posts.length > 0 ? (
-          posts.map((post) => (
-            <ArticleCard
-              title={post.data.title}
-              description={post.data.description}
-              category={post.data.category}
-              publishedAt={post.data.publishedAt}
-              href={`/news/${post.slug}/`}
-              image={post.data.image}
-              imageAlt={post.data.imageAlt}
-              showDate={post.data.showDate}
-            />
+          sections.map((section) => (
+            <section class="news-category" aria-labelledby={`category-${section.key}`}>
+              <header class="news-category-header">
+                <h2 id={`category-${section.key}`}>{section.label}</h2>
+              </header>
+              <div class="article-grid category-article-grid">
+                {section.posts.map((post) => (
+                  <ArticleCard
+                    title={post.data.title}
+                    description={post.data.description}
+                    category={post.data.category}
+                    publishedAt={post.data.publishedAt}
+                    href={`/news/${post.slug}/`}
+                    image={post.data.image}
+                    imageAlt={post.data.imageAlt}
+                    showDate={post.data.showDate}
+                    showCategory={false}
+                  />
+                ))}
+              </div>
+            </section>
           ))
         ) : (
           <div class="empty-state">
