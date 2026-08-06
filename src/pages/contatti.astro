@@ -42,12 +42,83 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
         <a class="button primary" href={whatsappHref} style="width: 100%;">{primaryCtaLabel}</a>
         <p class="cta-note" style="text-align: center;">{primaryCtaNote}</p>
       </div>
-      <div class="asset-panel" style="grid-column: span 1;">
+      <div class="asset-panel contact-asset-panel" style="grid-column: span 1;">
         <div class="glass-bg-blobs" aria-hidden="true">
           <div class="blob-circle blob-mauve" style="width: 250px; height: 250px; top: 15%; right: 15%; opacity: 0.18;"></div>
         </div>
-        <img src="/assets/programmatore.png" alt="Collaborazione Cas-Per" style="max-height: 380px; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.06));" />
+        <img
+          class="contact-asset-image"
+          src="/assets/contatti-casper-trasparente.webp"
+          alt="Telefono, smartphone e strumenti di contatto Cas-Per"
+        />
       </div>
     </div>
   </section>
+
+  <section class="section muted configurator-section">
+    <div class="section-inner configurator-grid">
+      <div>
+        <p class="eyebrow">Soluzioni su misura</p>
+        <h2>Ogni proposta nasce dal modo in cui lavora la tua impresa.</h2>
+        <p class="lead small-lead">
+          Ogni agenzia ha volumi, abitudini e servizi diversi. Per questo partiamo dalle esigenze reali e costruiamo
+          una soluzione proporzionata, chiara e sostenibile.
+        </p>
+      </div>
+      <div class="configurator" data-contact-configurator>
+        <label class="range-label" for="contactServicesRange">
+          <span>Servizi funebri annui</span>
+          <strong data-service-output>150</strong>
+        </label>
+        <input id="contactServicesRange" type="range" min="50" max="350" step="50" value="150" data-service-range />
+        <div class="module-grid" aria-label="Soluzioni di interesse">
+          <label class="module-toggle">
+            <input type="checkbox" value="Annunci funebri online" checked />
+            <span>Annunci funebri</span>
+          </label>
+          <label class="module-toggle">
+            <input type="checkbox" value="Monitor e vetrine" />
+            <span>Monitor</span>
+          </label>
+          <label class="module-toggle">
+            <input type="checkbox" value="Sito web o app" checked />
+            <span>Sito/App</span>
+          </label>
+          <label class="module-toggle">
+            <input type="checkbox" value="Streaming cerimonie" />
+            <span>Streaming</span>
+          </label>
+        </div>
+        <div class="config-summary">
+          <p data-config-summary>
+            La tua impresa gestisce circa 150 servizi e vuole integrare Annunci funebri online, Sito web o app.
+          </p>
+          <a class="button primary" data-config-cta href={whatsappHref}>{primaryCtaLabel}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const contactConfigurator = document.querySelector("[data-contact-configurator]");
+    const contactRange = contactConfigurator?.querySelector("[data-service-range]");
+    const contactOutput = contactConfigurator?.querySelector("[data-service-output]");
+    const contactSummary = contactConfigurator?.querySelector("[data-config-summary]");
+    const contactCta = contactConfigurator?.querySelector("[data-config-cta]");
+    const contactModules = Array.from(contactConfigurator?.querySelectorAll(".module-toggle input") ?? []);
+
+    const updateContactConfigurator = () => {
+      if (!contactRange || !contactOutput || !contactSummary || !contactCta) return;
+      const services = contactRange.value;
+      const selected = contactModules.filter((input) => input.checked).map((input) => input.value);
+      const needs = selected.length ? selected.join(", ") : "un primo orientamento";
+      contactOutput.textContent = services;
+      contactSummary.textContent = `La tua impresa gestisce circa ${services} servizi e vuole integrare ${needs}. Possiamo costruire una proposta su misura per rendere più semplice la comunicazione e più curata l'esperienza delle famiglie.`;
+      contactCta.href = `https://wa.me/393408384217?text=${encodeURIComponent(`Ciao, vorrei una proposta Cas-Per su misura. Gestiamo circa ${services} servizi annui e ci interessano: ${needs}.`)}`;
+    };
+
+    contactRange?.addEventListener("input", updateContactConfigurator);
+    contactModules.forEach((input) => input.addEventListener("change", updateContactConfigurator));
+    updateContactConfigurator();
+  </script>
 </BaseLayout>

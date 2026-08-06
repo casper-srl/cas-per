@@ -3,11 +3,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 
 const team = [
-  ["Andrea Peressoni", "coFounder - strategia e amministrazione", "Visione imprenditoriale, tecnologia e guida amministrativa."],
-  ["Giuliano Casco", "coFounder - responsabile commerciale", "Esperienza tecnica, vendita, formazione e rapporto diretto con le imprese."],
-  ["Paolo Cantoni", "sviluppatore", "Trasforma idee e bisogni operativi in strumenti concreti e affidabili."],
-  ["Roberta Casco", "customer care", "Grafica, eventi, assistenza clienti e formazione."],
-  ["Daniela Maiero", "backoffice", "Backoffice, grafica, assistenza clienti e supporto."],
+  ["Andrea Peressoni", "coFounder - strategia e amministrazione", "Visione imprenditoriale, tecnologia e guida amministrativa.", "/assets/team/andrea-peressoni.webp", "center 28%", "1.65"],
+  ["Giuliano Casco", "coFounder - responsabile commerciale", "Esperienza tecnica, vendita, formazione e rapporto diretto con le imprese.", "/assets/team/giuliano-casco-ritratto.webp", "center", "1"],
+  ["Paolo Cantoni", "sviluppatore", "Trasforma idee e bisogni operativi in strumenti concreti e affidabili.", "/assets/team/paolo-cantoni-ritratto.webp", "center", "1"],
+  ["Roberta Casco", "customer care", "Grafica, eventi, assistenza clienti e formazione.", "/assets/team/roberta-casco.webp", "center 32%", "1.12"],
+  ["Daniela Maiero", "backoffice", "Backoffice, grafica, assistenza clienti e supporto.", "/assets/team/daniela-maiero.webp", "center 28%", "1.18"],
   ["Simone De Cecco", "sviluppatore", "Esperienza tecnica senior e sviluppo di soluzioni su misura."],
 ];
 
@@ -17,6 +17,15 @@ const timeline = [
   ["2021", "Nasce Rip-Party, il format itinerante creato con i partner del settore."],
   ["2023", "Backoffice, grafica ed eventi entrano in modo più strutturato nel lavoro quotidiano."],
   ["oggi", "Cas-Per continua a crescere con servizi digitali, assistenza diretta e soluzioni su misura."],
+];
+
+const staffGallery = [
+  ["/assets/staff-gallery/staff-partner-stand.webp", "Staff Cas-Per allo stand AnnunciFunebri.it e Rip-Party"],
+  ["/assets/staff-gallery/staff-partner-incontro.webp", "Staff e partner Cas-Per riuniti a tavola"],
+  ["/assets/staff-gallery/staff-partner-tanexpo-team.webp", "Team Cas-Per durante Tanexpo"],
+  ["/assets/staff-gallery/staff-partner-memoria-expo.webp", "Staff Cas-Per alla fiera Memoria Expo"],
+  ["/assets/staff-gallery/staff-partner-tanexpo-gruppo.webp", "Staff e partner Cas-Per a Tanexpo"],
+  ["/assets/staff-gallery/staff-partner-rip-party-piemonte.webp", "Staff e partner Cas-Per durante una tappa di Rip-Party"],
 ];
 ---
 
@@ -33,6 +42,9 @@ const timeline = [
       <div>
         <p class="eyebrow">Dal 2014 su AnnunciFunebri.it</p>
         <h2>Costruiamo strumenti digitali ascoltando chi li usa ogni giorno.</h2>
+        <div class="hero-actions about-proof-actions">
+          <a class="button secondary" href="/dicono-di-noi/">Scopri cosa dicono di noi</a>
+        </div>
       </div>
       <div class="rich-text teal-card story-card">
         <p>
@@ -49,13 +61,25 @@ const timeline = [
 
   <section class="section muted">
     <div class="section-inner">
-      <figure class="staff-photo-card">
-        <img src="/assets/staff-casper.jpg" alt="Staff Cas-Per allo stand AnnunciFunebri.it e Rip-Party" />
-        <figcaption>
-          <span>Cas-Per sul campo</span>
-          <strong>Fiere, eventi e incontri con le imprese del settore.</strong>
-        </figcaption>
-      </figure>
+      <div class="section-heading staff-gallery-heading">
+        <h2>Il nostro staff e i nostri partner</h2>
+      </div>
+      <div class="staff-gallery">
+        {staffGallery.map(([src, alt]) => (
+          <figure class="staff-gallery-item">
+            <button
+              class="staff-gallery-trigger"
+              type="button"
+              data-staff-gallery-open
+              data-src={src}
+              data-alt={alt}
+              aria-label={`Ingrandisci: ${alt}`}
+            >
+              <img src={src} alt={alt} loading="lazy" />
+            </button>
+          </figure>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -64,6 +88,11 @@ const timeline = [
       <div>
         <p class="eyebrow">La nostra storia</p>
         <h2>Pochi passaggi, una direzione chiara: essere utili al settore.</h2>
+        <img
+          class="history-network-image"
+          src="/assets/chi-siamo-rete-trasparente.webp"
+          alt="Una rete digitale di imprese e persone collegate"
+        />
       </div>
       <div class="history-timeline teal-card">
         <div class="timeline-brand-card">
@@ -88,9 +117,15 @@ const timeline = [
         <h2>Ruoli chiari, competenze complementari.</h2>
       </div>
       <div class="team-grid">
-        {team.map(([name, role, text]) => (
+        {team.map(([name, role, text, image, objectPosition, scale]) => (
           <article class="team-card">
-            <div class="avatar" aria-hidden="true">{name.split(" ").map((part) => part[0]).join("")}</div>
+            <div class:list={["avatar", image && "has-photo"]} aria-hidden="true">
+              {image ? (
+                <img src={image} alt="" loading="lazy" style={`object-position: ${objectPosition}; transform: scale(${scale});`} />
+              ) : (
+                name.split(" ").map((part) => part[0]).join("")
+              )}
+            </div>
             <div>
               <h3>{name}</h3>
               <p class="role">{role}</p>
@@ -101,4 +136,31 @@ const timeline = [
       </div>
     </div>
   </section>
+
+  <dialog class="staff-lightbox" data-staff-lightbox aria-label="Fotografia ingrandita">
+    <div class="staff-lightbox-frame">
+      <button class="staff-lightbox-close" type="button" data-staff-lightbox-close aria-label="Chiudi immagine">&times;</button>
+      <img src="" alt="" data-staff-lightbox-image />
+    </div>
+  </dialog>
+
+  <script>
+    const staffLightbox = document.querySelector("[data-staff-lightbox]");
+    const staffLightboxImage = staffLightbox?.querySelector("[data-staff-lightbox-image]");
+    const staffLightboxClose = staffLightbox?.querySelector("[data-staff-lightbox-close]");
+
+    document.querySelectorAll("[data-staff-gallery-open]").forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        if (!(staffLightbox instanceof HTMLDialogElement) || !(staffLightboxImage instanceof HTMLImageElement)) return;
+        staffLightboxImage.src = trigger.dataset.src ?? "";
+        staffLightboxImage.alt = trigger.dataset.alt ?? "Fotografia dello staff e dei partner";
+        staffLightbox.showModal();
+      });
+    });
+
+    staffLightboxClose?.addEventListener("click", () => staffLightbox?.close());
+    staffLightbox?.addEventListener("click", (event) => {
+      if (event.target === staffLightbox) staffLightbox.close();
+    });
+  </script>
 </BaseLayout>
