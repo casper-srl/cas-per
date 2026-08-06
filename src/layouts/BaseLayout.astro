@@ -210,6 +210,14 @@ const isActive = (href: string) => {
           setMenuOpen(false);
         });
 
+        const footer = document.querySelector(".site-footer");
+        if (footer && "IntersectionObserver" in window) {
+          const footerObserver = new IntersectionObserver(([entry]) => {
+            document.body.classList.toggle("footer-in-view", entry.isIntersecting);
+          }, { threshold: 0.01 });
+          footerObserver.observe(footer);
+        }
+
         document.addEventListener("click", (event) => {
           const link = event.target instanceof Element ? event.target.closest("a") : null;
           if (!(link instanceof HTMLAnchorElement)) return;

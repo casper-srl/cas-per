@@ -2992,7 +2992,7 @@ main,
 
   .site-footer {
     gap: 22px;
-    padding: 40px clamp(18px, 6vw, 26px);
+    padding: 40px clamp(18px, 6vw, 26px) calc(132px + env(safe-area-inset-bottom));
   }
 
   .footer-brand {
@@ -3019,6 +3019,19 @@ main,
     gap: 12px;
     font-size: 1rem;
     line-height: 1.45;
+  }
+
+  html body button.iubenda-tp-btn.iubenda-cs-preferences-link[data-tp-float] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  html body.footer-in-view div#brevo-conversations {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 
   html,
