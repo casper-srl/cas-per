@@ -28,9 +28,10 @@ const formattedDate = new Intl.DateTimeFormat("it-IT", {
   year: "numeric",
 }).format(publishedAt);
 const meta = [showCategory ? category : null, showDate ? formattedDate : null].filter(Boolean).join(" · ");
+const isEvent = ["evento", "eventi"].includes(category.trim().toLocaleLowerCase("it-IT"));
 ---
 
-<article class="article-card">
+<article class:list={["article-card", isEvent && "article-card-event"]}>
   <a class="article-card-image" href={href} aria-label={`Leggi ${title}`}>
     <img src={image} alt={imageAlt} loading="lazy" />
   </a>

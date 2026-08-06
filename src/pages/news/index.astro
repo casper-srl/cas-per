@@ -10,12 +10,12 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 
 const categoryDefinitions = [
   { key: "guide", label: "Guide", aliases: ["guida", "guide"] },
-  { key: "eventi", label: "Eventi", aliases: ["evento", "eventi"] },
   {
     key: "notizie",
     label: "Notizie",
     aliases: ["news", "notizia", "notizie", "approfondimento", "approfondimenti"],
   },
+  { key: "eventi", label: "Eventi", aliases: ["evento", "eventi"] },
 ];
 
 const normalizeCategory = (category: string) => category.trim().toLocaleLowerCase("it-IT");
