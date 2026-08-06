@@ -37,6 +37,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
               href={`/news/${post.slug}/`}
               image={post.data.image}
               imageAlt={post.data.imageAlt}
+              showDate={post.data.showDate}
             />
           ))
         ) : (

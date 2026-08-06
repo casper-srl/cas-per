@@ -6,6 +6,7 @@ publishedAt: 2026-08-05
 author: "Cas-Per"
 image: "/assets/blog-necrologi-online-casper.webp"
 imageAlt: "Illustrazione di un messaggio di cordoglio inviato da un computer"
+showDate: false
 draft: false
 ---
 

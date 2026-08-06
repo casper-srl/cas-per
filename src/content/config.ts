@@ -11,6 +11,7 @@ const blog = defineCollection({
     author: z.string().default("Cas-Per"),
     image: z.string().default("/assets/annuncifunebri_pc-1.jpg"),
     imageAlt: z.string(),
+    showDate: z.boolean().default(true),
     draft: z.boolean().default(false),
   }),
 });

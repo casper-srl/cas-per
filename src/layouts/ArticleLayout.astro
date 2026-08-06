@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { title, description, category, publishedAt, updatedAt, author, image, imageAlt } = entry.data;
+const { title, description, category, publishedAt, updatedAt, author, image, imageAlt, showDate } = entry.data;
 const formattedDate = new Intl.DateTimeFormat("it-IT", {
   day: "numeric",
   month: "long",
@@ -51,7 +51,7 @@ const articleSchema = {
       <p class="eyebrow">{category}</p>
       <h1>{title}</h1>
       <p class="lead">{description}</p>
-      <p class="article-meta">{formattedDate} · a cura di {author}</p>
+      <p class="article-meta">{showDate ? `${formattedDate} · ` : ""}a cura di {author}</p>
       <img class="article-cover" src={image} alt={imageAlt} />
     </header>
 
