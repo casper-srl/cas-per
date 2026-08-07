@@ -36,27 +36,34 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
       </div>
     </div>
     <div class="memory-board refined-board doodle-panel" aria-label="Sistema Cas-Per">
-      <img class="board-logo" src="/assets/logo-casper.webp" alt="" aria-hidden="true" />
+      <img class="board-logo" src="/assets/logo-casper-glass-transparent.webp" alt="" aria-hidden="true" />
       <div class="hero-badge">
         <span>dal 2014</span>
         <strong>Non solo necrologi online</strong>
       </div>
       <div class="hero-art-wrap">
-        <div class="glass-bg-blobs" aria-hidden="true">
-          <div class="blob-circle blob-cyan" style="width: 260px; height: 260px; top: -20px; left: -20px; opacity: 0.22;"></div>
-          <div class="blob-circle blob-mauve" style="width: 220px; height: 220px; bottom: -20px; right: -20px; opacity: 0.22;"></div>
-        </div>
-        <img class="hero-art" src="/assets/Risorsa-1cp2-1024x1007.png" alt="Team Cas-Per che collabora" />
+        <img
+          class="hero-art"
+          src="/assets/home-servizi-casper-trasparente.webp"
+          alt="Servizi digitali Cas-Per collegati alle esigenze delle imprese funebri"
+        />
       </div>
-      <div class="board-kicker">sistema Cas-Per</div>
-      <div class="board-title">annuncio<br />cordoglio<br />memoria</div>
-      <div class="board-flow">
-        <span>impresa</span>
-        <span>famiglia</span>
-        <span>comunità</span>
-      </div>
-      <div class="board-note">
-        Dal messaggio digitale al libretto cartaceo: un servizio che resta nelle mani della famiglia.
+      <div class="board-story">
+        <p>
+          Nata nel 2013 dall'idea di <strong>Giuliano</strong> e <strong>Andrea</strong>, Cas-Per è un'azienda motivata,
+          in continua crescita. Questo perché <em>crediamo in ciò che facciamo e siamo fermamente convinti che nuovi
+          scenari ed altre soluzioni siano possibili.</em>
+        </p>
+        <p>
+          Oggi Cas-Per si presenta come un'azienda giovane e fortemente dinamica che fa della continua formazione e
+          dello scouting tecnologico alcuni dei suoi principali punti di forza; <em>c'è sempre un progetto, un'idea,
+          un'intuizione da seguire, ma soprattutto voglia di imparare e condividere.</em>
+        </p>
+        <p>
+          Da questa attività sono inoltre nate numerose partnership tecnologiche, che hanno delineato nuove
+          opportunità, con lo scopo di realizzare ulteriori soluzioni e di raggiungere insieme specifici obiettivi
+          nell'innovazione, <em>per creare servizi utili con <strong>semplicità</strong>.</em>
+        </p>
       </div>
     </div>
   </section>
@@ -155,8 +162,8 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
         <input id="servicesRange" type="range" min="50" max="350" step="50" value="150" data-service-range />
         <div class="module-grid" aria-label="Moduli di interesse">
           <label class="module-toggle">
-            <input type="checkbox" value="WhatsApp automatico" checked />
-            <span>WhatsApp</span>
+            <input type="checkbox" value="Annunci funebri online" checked />
+            <span>Annunci funebri</span>
           </label>
           <label class="module-toggle">
             <input type="checkbox" value="Monitor e vetrine" />
@@ -173,7 +180,7 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
         </div>
         <div class="config-summary">
           <p data-config-summary>
-            La tua impresa gestisce circa 150 servizi e vuole integrare WhatsApp automatico, Sito web o app.
+            La tua impresa gestisce circa 150 servizi e vuole integrare Annunci funebri online, Sito web o app.
           </p>
           <a class="button primary" data-config-cta href={whatsappHref}>{primaryCtaLabel}</a>
         </div>
@@ -220,7 +227,7 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
 
   <section class="section rip-section">
     <div class="section-inner rip-grid">
-      <div>
+      <div class="rip-copy">
         <p class="eyebrow">Rip-Party</p>
         <h2>Relazioni vere, fuori dalla sala riunioni.</h2>
         <p class="lead small-lead">
@@ -228,6 +235,12 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
           nuove imprese e costruire fiducia senza forzature commerciali.
         </p>
         <a class="button secondary" href="https://www.rip-party.it/" target="_blank" style="margin-top: 24px;">Vai a Rip-Party</a>
+        <img
+          class="rip-copy-statue"
+          src="/assets/rip-party-statua-trasparente.webp"
+          alt="Statua Rip-Party con occhiali da sole e calice"
+          loading="lazy"
+        />
       </div>
       <div class="rip-map-container">
         <div class="rip-map" aria-label="Tappe Rip-Party">
@@ -289,6 +302,15 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
   </script>
   
   <style>
+    .rip-copy-statue {
+      display: block;
+      width: min(100%, 330px);
+      height: auto;
+      margin: 24px auto 0;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 24px rgba(23, 43, 49, 0.08));
+    }
+
     .rip-map-container {
       position: relative;
       width: 100%;
@@ -348,7 +370,7 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
       gap: 18px;
       padding: 16px 18px;
       background: rgba(255, 255, 255, 0.62);
-      border-color: rgba(5, 162, 194, 0.28);
+      border-color: rgba(39, 125, 162, 0.28);
       border-radius: 18px;
       box-shadow: 0 10px 24px rgba(23, 43, 49, 0.06);
     }
@@ -384,6 +406,11 @@ import { primaryCtaLabel, primaryCtaNote, whatsappHref } from "../data/contact";
     }
 
     @media (max-width: 768px) {
+      .rip-copy-statue {
+        width: min(78vw, 300px);
+        margin-top: 18px;
+      }
+
       .rip-statue-bg {
         width: 180px;
         right: -10px;

@@ -9,13 +9,13 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 );
 
 const categoryDefinitions = [
-  { key: "guide", label: "Guide", aliases: ["guida", "guide"] },
   {
     key: "notizie",
     label: "Notizie",
     aliases: ["news", "notizia", "notizie", "approfondimento", "approfondimenti"],
   },
   { key: "eventi", label: "Eventi", aliases: ["evento", "eventi"] },
+  { key: "guide", label: "Guide", aliases: ["guida", "guide"] },
 ];
 
 const normalizeCategory = (category: string) => category.trim().toLocaleLowerCase("it-IT");
@@ -59,11 +59,14 @@ const sections = [...categorySections, ...otherCategories];
       {
         posts.length > 0 ? (
           sections.map((section) => (
-            <section class="news-category" aria-labelledby={`category-${section.key}`}>
-              <header class="news-category-header">
-                <h2 id={`category-${section.key}`}>{section.label}</h2>
-              </header>
-              <div class="article-grid category-article-grid">
+            <details class="news-category">
+              <summary class="news-category-header">
+                <span class="news-category-title" id={`category-${section.key}`}>{section.label}</span>
+                <span class="news-category-count" aria-label={`${section.posts.length} articoli`}>
+                  {section.posts.length.toString().padStart(2, "0")}
+                </span>
+              </summary>
+              <div class="article-grid category-article-grid" aria-labelledby={`category-${section.key}`}>
                 {section.posts.map((post) => (
                   <ArticleCard
                     title={post.data.title}
@@ -78,7 +81,7 @@ const sections = [...categorySections, ...otherCategories];
                   />
                 ))}
               </div>
-            </section>
+            </details>
           ))
         ) : (
           <div class="empty-state">
