@@ -202,13 +202,19 @@ const isActive = (href: string) => {
                 : null;
 
           if (!channel) return;
+          const contactEvent = channel === "telefono" ? "contact_phone" : `contact_${channel}`;
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({
             event: "contact_click",
+            contact_event: contactEvent,
             contact_channel: channel,
             link_text: link.textContent?.trim() ?? "",
             page_path: window.location.pathname,
           });
+
+          if (typeof window.clarity === "function") {
+            window.clarity("event", contactEvent);
+          }
         });
       })();
     </script>
