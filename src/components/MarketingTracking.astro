@@ -7,7 +7,7 @@ const config = {
   gtmId: import.meta.env.PUBLIC_GTM_ID || defaults.gtmId,
 };
 
-const trackingConfigured = Boolean(config.iubendaSiteId && config.iubendaPolicyId && config.gtmId);
+const trackingConfigured = import.meta.env.PROD && Boolean(config.iubendaSiteId && config.iubendaPolicyId && config.gtmId);
 ---
 
 {
