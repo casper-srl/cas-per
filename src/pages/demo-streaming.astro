@@ -1,0 +1,180 @@
+---
+const stream = "https://stream.annuncifunebri.it/live/demotanexpo-canale1.m3u8";
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Scopri al RIParty la diretta delle cerimonie con Cas-Per e AnnunciFunebri.it." />
+    <title>Demo streaming | Cas-Per × RIParty</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="screen">
+      <header>
+        <img class="casper-logo" src="/assets/logo-casper-glass-transparent.webp" alt="Cas-Per" />
+        <span class="event-label">LA TECNOLOGIA SI INCONTRA DAL VIVO</span>
+        <img class="riparty-logo" src="/assets/demo-riparty-logo.png" alt="RIParty" />
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="title">
+          <p class="eyebrow"><span></span> PROVA LA NOSTRA DIRETTA</p>
+          <h1 id="title">Essere vicini,<br />anche <em>da lontano.</em></h1>
+          <p class="description">Scopri quanto è semplice trasmettere una cerimonia funebre in diretta e permettere a tutti di partecipare.</p>
+          <div class="signature"><span class="signature-line"></span> Lo streaming di <strong>AnnunciFunebri.it</strong></div>
+        </section>
+
+        <section class="broadcast" aria-label="Dimostrazione streaming">
+          <div class="video-heading">
+            <span class="demo-badge">DEMO STREAMING</span>
+            <span><time datetime="2026-09-18">18 settembre 2026</time> · Collecorvino</span>
+          </div>
+          <div id="video-stage" class="video-stage">
+            <div id="player" data-stream={stream}></div>
+            <div id="stream-status" class="stream-status" role="status" hidden>
+              <span class="waiting-icon" aria-hidden="true">◉</span>
+              <strong>La diretta sta per arrivare.</strong>
+              <p>In attesa del collegamento.<br />Il video ripartirà automaticamente.</p>
+            </div>
+          </div>
+          <div class="video-footer">
+            <span id="playback-note">Premi play per seguire la dimostrazione.</span>
+            <button id="fullscreen" type="button" aria-label="Mostra il video a schermo intero">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5" /></svg>
+              Schermo intero
+            </button>
+          </div>
+          <noscript>Per visualizzare la diretta, abilita JavaScript nel browser.</noscript>
+        </section>
+      </main>
+
+      <footer>
+        <div><span class="footer-label">GUARDA. PROVA. CHIEDICI.</span><p>La semplicità si vede, <strong>dal vivo.</strong></p></div>
+        <div class="staff">Chiedi informazioni<br /><strong>allo staff Cas-Per <span aria-hidden="true">↗</span></strong></div>
+      </footer>
+    </div>
+
+    <script is:inline src="https://cdn.jsdelivr.net/npm/clappr@0.3.13/dist/clappr.min.js"></script>
+    <script is:inline>
+      const target = document.getElementById('player');
+      const stage = document.getElementById('video-stage');
+      const status = document.getElementById('stream-status');
+      const note = document.getElementById('playback-note');
+      const fullscreen = document.getElementById('fullscreen');
+      let retry;
+
+      if (window.Clappr) {
+        const player = new Clappr.Player({
+          parentId: '#player',
+          source: target.dataset.stream,
+          width: '100%',
+          height: '100%',
+          disableErrorScreen: true,
+          playback: { playInline: true },
+        });
+        player.on(Clappr.Events.PLAYER_ERROR, () => {
+          status.hidden = false;
+          note.textContent = 'Riconnessione automatica ogni 10 secondi.';
+          clearTimeout(retry);
+          retry = setTimeout(() => {
+            player.configure({ source: target.dataset.stream, autoPlay: true });
+          }, 10000);
+        });
+        player.on(Clappr.Events.PLAYER_PLAY, () => {
+          clearTimeout(retry);
+          status.hidden = true;
+          note.textContent = 'La cerimonia, ovunque ti trovi.';
+        });
+        window.addEventListener('pagehide', () => { clearTimeout(retry); player.destroy(); });
+      } else {
+        status.hidden = false;
+        status.querySelector('strong').textContent = 'Il player non è disponibile.';
+        status.querySelector('p').textContent = 'Controlla la connessione e ricarica la pagina.';
+        note.textContent = 'Impossibile caricare il player.';
+      }
+
+      fullscreen.addEventListener('click', async () => {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else if (stage.requestFullscreen) await stage.requestFullscreen();
+          else {
+            const video = stage.querySelector('video');
+            if (video?.webkitEnterFullscreen) video.webkitEnterFullscreen();
+            else note.textContent = 'Usa il comando schermo intero del player.';
+          }
+        } catch {
+          note.textContent = 'Usa il comando schermo intero del player.';
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  :global(*) { box-sizing: border-box; }
+  :global(html) { background: #edf2f5; }
+  :global(body) { margin: 0; color: #173649; font-family: "Century Gothic", "Segoe UI", sans-serif; }
+  .screen { height: 100vh; height: 100dvh; min-height: 520px; padding: clamp(20px, 2.4vw, 48px); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(18px, 2.5vh, 30px); background: radial-gradient(ellipse at 95% 0%, #5ec5c528, transparent 55%), radial-gradient(ellipse at 0% 100%, #935ca220, transparent 50%), #edf2f5; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .casper-logo { width: clamp(120px, 11vw, 205px); height: clamp(44px, 7vh, 78px); object-fit: contain; }
+  .riparty-logo { width: clamp(110px, 10vw, 180px); height: clamp(44px, 7vh, 78px); object-fit: contain; }
+  .event-label { font-size: clamp(10px, .85vw, 16px); letter-spacing: .2em; color: #547080; }
+  main { display: grid; grid-template-columns: minmax(0, .72fr) minmax(0, 2fr); gap: clamp(24px, 3.5vw, 68px); align-items: center; min-height: 0; }
+  .eyebrow { display: flex; align-items: center; gap: 9px; font-size: clamp(10px, .8vw, 15px); letter-spacing: .13em; font-weight: 700; color: #277da2; }
+  .eyebrow span { width: 8px; height: 8px; border-radius: 50%; background: #935ca2; flex-shrink: 0; }
+  h1 { font-size: clamp(32px, 3.55vw, 72px); line-height: 1.06; font-weight: 600; letter-spacing: -.055em; margin: 24px 0; }
+  h1 em { color: #277da2; font-style: normal; }
+  .description { font-size: clamp(15px, 1.15vw, 24px); line-height: 1.65; color: #536b78; max-width: 34ch; }
+  .signature { display: flex; flex-wrap: wrap; align-items: center; column-gap: 5px; font-size: clamp(11px, .8vw, 16px); margin-top: 30px; color: #536b78; }
+  .signature-line { width: 24px; height: 2px; background: #935ca2; margin-right: 5px; }
+  .signature strong { color: #277da2; }
+  .broadcast { width: 100%; height: 100%; min-width: 0; container-type: size; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .video-heading, .video-stage, .video-footer { width: min(100%, calc((100cqh - 100px) * 16 / 9)); flex-shrink: 0; }
+  .video-heading, .video-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: clamp(12px, .95vw, 18px); }
+  .video-heading { margin-bottom: 14px; }
+  .demo-badge { border: 1px solid #277da22b; border-radius: 30px; background: #ffffff8c; padding: 7px 12px; color: #277da2; font-size: clamp(10px, .7vw, 14px); letter-spacing: .1em; font-weight: 700; }
+  .video-stage { position: relative; aspect-ratio: 16 / 9; background: #101c25; border-radius: 18px; overflow: hidden; box-shadow: 0 20px 55px #1c485527; }
+  #player { position: absolute; inset: 0; }
+  .stream-status { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; background: linear-gradient(140deg, #132d3bed, #172c39f5); color: #fff; pointer-events: none; }
+  .stream-status[hidden] { display: none; }
+  .waiting-icon { font-size: 42px; color: #5ec5c5; margin-bottom: 20px; }
+  .stream-status strong { font-size: clamp(22px, 2vw, 38px); font-weight: 500; }
+  .stream-status p { color: #c5dce3; font-size: clamp(14px, 1vw, 20px); line-height: 1.6; }
+  .video-footer { margin-top: 12px; font-size: clamp(11px, .8vw, 15px); color: #536b78; }
+  button { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; border: 1px solid #277da238; border-radius: 8px; background: #ffffffa6; color: #245b75; padding: 9px 12px; font: inherit; cursor: pointer; }
+  button:hover { background: #fff; }
+  button:focus-visible { outline: 3px solid #935ca2; outline-offset: 3px; }
+  button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+  .video-stage:fullscreen { width: 100vw; height: 100vh; border-radius: 0; }
+  footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid #ffffff; background: #ffffff80; border-radius: 16px; padding: clamp(14px, 1.4vw, 26px) clamp(20px, 2vw, 38px); }
+  .footer-label { font-size: clamp(10px, .7vw, 14px); letter-spacing: .15em; color: #935ca2; font-weight: 700; }
+  footer p { font-size: clamp(18px, 1.5vw, 30px); margin: 6px 0 0; }
+  .staff { font-size: clamp(15px, 1.15vw, 23px); line-height: 1.4; }
+  .staff strong { color: #277da2; font-size: clamp(20px, 1.65vw, 34px); }
+  .staff strong span { color: #935ca2; margin-left: 14px; }
+  @media (max-width: 760px) and (orientation: portrait) {
+    .screen { height: auto; min-height: 100dvh; padding: 22px; gap: 28px; }
+    .event-label { display: none; }
+    main { grid-template-columns: 1fr; gap: 24px; }
+    h1 { font-size: 42px; margin: 18px 0; }
+    .description { max-width: none; }
+    .signature { margin-top: 18px; }
+    .broadcast { height: auto; container-type: normal; }
+    .video-heading, .video-stage, .video-footer { width: 100%; }
+    .video-heading { font-size: 12px; }
+    .video-footer { flex-wrap: wrap; }
+    footer { flex-direction: column; align-items: flex-start; gap: 18px; }
+  }
+  @media (orientation: landscape) and (max-height: 650px) {
+    .screen { min-height: 0; padding: 16px 24px; gap: 12px; }
+    .casper-logo, .riparty-logo { height: 38px; }
+    h1 { font-size: clamp(24px, 3vw, 38px); margin: 12px 0; }
+    .description { font-size: 13px; line-height: 1.45; }
+    .signature { margin-top: 12px; }
+    footer { padding: 10px 20px; }
+  }
+</style>
