@@ -7,14 +7,16 @@ const {
   title = "Cas-Per | Tecnologia e relazione per imprese funebri",
   description = "Cas-Per accompagna le imprese funebri con soluzioni digitali su misura: AnnunciFunebri.it, siti web, app, WhatsApp, streaming, monitor e assistenza diretta.",
   canonical,
-  image = "/assets/annuncifunebri_pc-1.jpg",
   type = "website",
   publishedTime,
   noindex = false,
 } = Astro.props;
 
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
-const socialImageUrl = new URL(image, Astro.site ?? Astro.url.origin).toString();
+const socialImageUrl = new URL(
+  "/assets/og-siti-web-app-casper-v3.png",
+  Astro.site ?? Astro.url.origin,
+).toString();
 const buildSha = import.meta.env.PUBLIC_BUILD_SHA || "local";
 
 const nav = [
