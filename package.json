@@ -1,6 +1,6 @@
 {
   "name": "cas-per-website",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "description": "Sito web cas-per.it",
   "private": true,
   "type": "module",
@@ -11,7 +11,8 @@
     "check:secrets": "node scripts/check-secrets.mjs",
     "check:tracking": "node scripts/check-tracking.mjs",
     "audit:prod": "npm audit --omit=dev --audit-level=high",
-    "check": "npm run check:secrets && npm run audit:prod"
+    "check:landing-events": "node --test tests/landing-events.test.mjs",
+    "check": "npm run check:secrets && npm run audit:prod && npm run check:landing-events"
   },
   "dependencies": {
     "astro": "^7.1.6"

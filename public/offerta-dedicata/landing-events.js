@@ -1,80 +1,63 @@
 (() => {
-  const script = document.currentScript;
-  const endpoint = script.dataset.endpoint;
-  const slug = script.dataset.slug;
+  const { endpoint, slug } = document.currentScript.dataset;
   const uuid = () => {
     const bytes = crypto.getRandomValues(new Uint8Array(16));
     bytes[6] = (bytes[6] & 15) | 64; bytes[8] = (bytes[8] & 63) | 128;
     const hex = [...bytes].map(value => value.toString(16).padStart(2, '0')).join('');
     return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
   };
-  let startRequestId, startToken;
-  let session, events = [], activeSeconds = 0, originTime = 0, startClock = 0;
-  let running = false, sending = false, lastTick = performance.now();
-  const depths = new Set();
-  const panel = document.createElement('aside');
-  panel.setAttribute('aria-label', 'Collaudo eventi della landing');
-  panel.style.cssText = 'position:relative;background:#eff6ff;color:#172554;padding:12px 20px;font:13px/1.5 system-ui;border-bottom:1px solid #bfdbfe';
-  panel.innerHTML = '<strong>Collaudo funzionale · Diario CRM</strong> <button type="button" style="margin:0 10px;padding:5px 12px;border:1px solid #93c5fd;border-radius:6px;background:white;color:#172554">Avvia test eventi</button><span role="status" aria-live="polite">La registrazione parte solo premendo Avvia test. L’agenda resta dimostrativa.</span>';
-  document.body.prepend(panel);
-  const button = panel.querySelector('button');
-  const status = panel.querySelector('[role="status"]');
+  let visit = null;
   const post = async payload => {
-    const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const response = await fetch(endpoint, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     if (!response.ok) throw Object.assign(new Error('Invio al Diario non riuscito'), { status: response.status });
     return response.json();
   };
-  const payload = batch => ({ action: 'events', session_id: session.session_id, token: session.token, active_seconds: Math.floor(activeSeconds), events: batch });
-  const flush = async () => {
-    if (!session || sending || !running) return false;
-    sending = true;
-    const batch = events.slice(0, 40);
-    try {
-      const saved = await post(payload(batch));
-      const ids = new Set(batch.map(event => event._id));
-      events = events.filter(event => !ids.has(event._id));
-      status.textContent = `${saved.total_events} ${saved.total_events === 1 ? 'evento salvato' : 'eventi salvati'} nel Diario CRM.`;
-      return true;
-    } catch (error) {
-      if ([403, 404, 410].includes(error.status)) {
-        running = false; startRequestId = undefined; startToken = undefined; button.textContent = 'Avvia nuovo test';
-        status.textContent = 'Sessione non più valida. Avvia un nuovo test locale.';
-      } else status.textContent = 'Collegamento momentaneamente non disponibile. Gli eventi restano in attesa nella pagina.';
-      return false;
-    } finally { sending = false; }
-  };
   const record = (type, source) => {
-    if (!running) return;
-    events.push({ _id: uuid(), type, occurred_at: new Date(originTime + performance.now() - startClock).toISOString(), ...(source ? { source } : {}) });
+    if (!visit || visit.events.length + visit.saved >= 200) return;
+    visit.events.push({ _id: uuid(), type, elapsed: visit.session ? Math.max(0, performance.now() - visit.clock) : 0, ...(source ? { source } : {}) });
   };
   const scroll = () => {
-    if (!running) return;
+    if (!visit) return;
     const height = document.documentElement.scrollHeight - innerHeight;
     const percent = height > 0 ? Math.min(100, Math.round(scrollY / height * 100)) : 100;
-    for (const depth of [25, 50, 75, 100]) if (percent >= depth && !depths.has(depth)) {
-      depths.add(depth); record(`scroll_${depth}`);
+    for (const depth of [25, 50, 75, 100]) if (percent >= depth && !visit.depths.has(depth)) {
+      visit.depths.add(depth); record(`scroll_${depth}`);
     }
   };
-  button.addEventListener('click', async () => {
-    if (running) {
-      if (!await flush()) return;
-      running = false; startRequestId = undefined; startToken = undefined; button.textContent = 'Avvia nuovo test';
-      status.textContent += ' Registrazione fermata.'; return;
-    }
-    button.disabled = true;
+  const payload = current => ({ action: 'events', session_id: current.session.session_id, token: current.session.token,
+    active_seconds: Math.floor(current.active), events: current.events.slice(0, 40).map(({ elapsed, ...event }) => ({ ...event, occurred_at: new Date(Date.parse(current.session.started_at) + elapsed).toISOString() })) });
+  const flush = async () => {
+    const current = visit;
+    if (!current || current.sending) return;
+    current.sending = true;
     try {
-      startRequestId ||= uuid();
-      startToken ||= [...crypto.getRandomValues(new Uint8Array(32))].map(value => value.toString(16).padStart(2, '0')).join('');
-      session = await post({ action: 'start', slug, request_id: startRequestId, token: startToken });
-      events = []; depths.clear(); activeSeconds = 0;
-      originTime = Date.parse(session.started_at); startClock = performance.now(); lastTick = startClock;
-      running = true; button.textContent = 'Ferma test eventi'; record('page_view'); scroll(); await flush();
+      if (!current.session) {
+        const session = await post({ action: 'start', slug, request_id: current.id, token: current.token });
+        if (visit !== current) return;
+        current.session = session; current.clock = performance.now(); current.tick = current.clock;
+      }
+      if (performance.now() - current.clock >= 30 * 60000) { visit = null; return; }
+      const batch = payload(current);
+      const saved = await post(batch);
+      if (visit !== current) return;
+      const ids = new Set(batch.events.map(event => event._id));
+      current.events = current.events.filter(event => !ids.has(event._id)); current.saved = saved.total_events;
     } catch (error) {
-      if (error.status === 410) { startRequestId = undefined; startToken = undefined; }
-      status.textContent = 'Registrazione non disponibile. Riprova tra poco.';
-    }
-    finally { button.disabled = false; }
-  });
+      if (visit === current && ([400, 403, 404, 409, 410].includes(error.status) || (!current.session && error.status === 429))) visit = null;
+      // Temporary failures keep the same IDs and token for the next attempt.
+    } finally { current.sending = false; }
+  };
+  let granted = false;
+  const consent = preference => {
+    const allowed = preference?.purposes ? preference.purposes[4] === true : preference?.consent === true;
+    if (allowed === granted) return;
+    granted = allowed;
+    visit = null; // Revocation discards pending events, including an in-flight start.
+    if (!allowed) return;
+    visit = { id: uuid(), token: [...crypto.getRandomValues(new Uint8Array(32))].map(value => value.toString(16).padStart(2, '0')).join(''),
+      session: null, events: [], depths: new Set(), active: 0, tick: performance.now(), saved: 0, sending: false };
+    record('page_view'); scroll(); flush();
+  };
   document.addEventListener('click', event => {
     const target = event.target instanceof Element ? event.target.closest('a,button') : null;
     if (!target) return;
@@ -85,12 +68,37 @@
   }, true);
   addEventListener('scroll', scroll, { passive: true });
   setInterval(() => {
+    if (!visit?.session) return;
     const now = performance.now();
-    if (running && document.visibilityState === 'visible' && document.hasFocus()) activeSeconds += Math.min(2, (now - lastTick) / 1000);
-    lastTick = now;
+    if (document.visibilityState === 'visible' && document.hasFocus()) visit.active += Math.min(2, (now - visit.tick) / 1000);
+    visit.tick = now;
   }, 1000);
   setInterval(flush, 5000);
-  addEventListener('pagehide', () => {
-    if (running && session) navigator.sendBeacon(endpoint, new Blob([JSON.stringify(payload(events.slice(0, 40)))], { type: 'application/json' }));
+  document.addEventListener('visibilitychange', () => {
+    if (visit) visit.tick = performance.now();
+    if (document.visibilityState === 'hidden') flush();
   });
+  addEventListener('pagehide', () => {
+    if (visit?.session) navigator.sendBeacon(endpoint, new Blob([JSON.stringify(payload(visit))], { type: 'application/json' }));
+  });
+  const notice = document.createElement('p');
+  notice.style.cssText = 'font:12px/1.6 system-ui;max-width:1100px;margin:0 auto;padding:20px 24px 100px;color:#596852';
+  notice.innerHTML = 'Se acconsenti alla misurazione, Cas-Per registra nel proprio CRM la visita, il tempo attivo, lo scorrimento e i clic, associandoli all’impresa indicata in questa pagina. Puoi cambiare scelta nelle <a class="iubenda-cs-preferences-link" href="#" style="text-decoration:underline">preferenze privacy</a>. <a href="https://www.iubenda.com/privacy-policy/88572891" target="_blank" rel="noopener" style="text-decoration:underline">Informativa privacy</a>.';
+  document.querySelector('.site-footer')?.after(notice);
+  fetch('/offerta-dedicata/consent-config.json').then(response => {
+    if (!response.ok) throw new Error('Configurazione consenso non disponibile');
+    return response.json();
+  }).then(config => {
+    window._iub = window._iub || [];
+    window._iub.csConfiguration = {
+      siteId: config.iubendaSiteId, cookiePolicyId: config.iubendaPolicyId, lang: 'it',
+      purposes: '1,2,3,4,5', perPurposeConsent: true, consentOnContinuedBrowsing: false,
+      floatingPreferencesButtonDisplay: 'bottom-right', storage: { useSiteId: true },
+      banner: { acceptButtonDisplay: true, customizeButtonDisplay: true, rejectButtonDisplay: true, position: 'float-top-center' },
+      callback: { onPreferenceExpressedOrNotNeeded: consent, onPreferenceExpressed: consent, onStartupFailed: () => consent(null), onFatalError: () => consent(null) }
+    };
+    const cmp = document.createElement('script');
+    cmp.src = 'https://cdn.iubenda.com/cs/iubenda_cs.js'; cmp.async = true; cmp.charset = 'UTF-8';
+    document.head.append(cmp);
+  }).catch(() => { consent(null); });
 })();
