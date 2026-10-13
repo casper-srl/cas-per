@@ -16,6 +16,7 @@ FROM public.ecr.aws/nginx/nginx:stable-alpine AS runtime
 
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
+RUN nginx -t
 
 EXPOSE 3000
 
