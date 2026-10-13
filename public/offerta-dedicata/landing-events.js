@@ -93,7 +93,7 @@
     window._iub.csConfiguration = {
       siteId: config.iubendaSiteId, cookiePolicyId: config.iubendaPolicyId, lang: 'it',
       purposes: '1,2,3,4,5', perPurposeConsent: true, consentOnContinuedBrowsing: false,
-      floatingPreferencesButtonDisplay: false, storage: { useSiteId: true },
+      floatingPreferencesButtonDisplay: 'bottom-right', storage: { useSiteId: true },
       banner: { acceptButtonDisplay: true, customizeButtonDisplay: true, rejectButtonDisplay: true, position: 'float-top-center' },
       callback: { onPreferenceExpressedOrNotNeeded: consent, onPreferenceExpressed: consent, onStartupFailed: () => consent(null), onFatalError: () => consent(null) }
     };

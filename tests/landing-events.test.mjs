@@ -113,7 +113,16 @@ test('active time excludes hidden tabs; unload uses beacon and revocation disabl
 test('expired and invalid sessions stop; a full event queue remains bounded', async () => {
   const expired = await browser(); await expired.preference({ consent: true }); await expired.tick(5000, 30 * 60000);
   const count = expired.requests.length; await expired.click('booking'); await expired.tick(5000); assert.equal(expired.requests.length, count);
-  const full = await browser({ append: () => response({}, 503) }); await full.preference({ consent: true });
+  let online = false; const received = new Map();
+  const full = await browser({ append: payload => {
+    if (!online) return response({}, 503);
+    for (const event of payload.events) received.set(event._id, event);
+    return response({ total_events: received.size });
+  } }); await full.preference({ consent: true });
   for (let i = 0; i < 250; i++) await full.click('booking');
   full.dispatch('pagehide'); assert.equal(JSON.parse(await full.beacons[0].text()).events.length, 40);
+  online = true;
+  for (let i = 0; i < 6; i++) await full.tick(5000);
+  assert.equal(received.size, 200);
+  assert.equal([...received.values()].filter(e => e.type === 'booking_open').length, 199);
 });
