@@ -13,3 +13,11 @@ Pubblicazione coordinata: verificare il permesso reader dell'account di servizio
 Verificare CTA dei due box e della pagina generica, mobile, Google Meet/modulo, chiusura e riapertura, rifiuto della misurazione e distinzione degli eventi. Un appuntamento di prova con invito reale va autorizzato e identificato separatamente.
 
 Collaudo reale del 14 ottobre 2026: dalla UI candidata per Guerra, Box 02, email autorizzata e nome TEST OPERATORE nel modulo Google. Confermati incontro del 15 ottobre 10:00-10:30 Europe/Rome, una sola nota automatica con origine Nuovo sito e Meet nel Diario, stato verified dal server e schermata finale con saluto. Nota annotata come test dell'operatore, senza rappresentare un contatto commerciale. La precedente prova OF Perez resta separata. Nessun annullamento eseguito; la prova futura rimane nel calendario. I dettagli privati e gli screenshot sono soltanto locali.
+
+## Agenda senza iframe, 14 ottobre 2026
+
+Tutte le proposte aprono il programma Google in una scheda dedicata. Il clic sul pulsante email riserva la nuova scheda prima della chiamata asincrona; Google viene aperto soltanto dopo che il server ha registrato la richiesta. Se il browser blocca il popup resta disponibile un normale link. La scheda di caricamento viene chiusa in caso di errore o annullamento.
+
+La landing verifica la conferma al ritorno in primo piano e offre «Ho prenotato · verifica conferma». Il pulsante interroga il server e non dichiara una conversione. La verifica si riprende anche dopo una ricarica mediante sessionStorage specifico della pagina, con identificatore, token, origine e scadenza; nessuna email viene salvata nel browser. Il consenso alla misurazione rimane distinto dal booking. Il modulo Google richiede ancora i propri campi: email e impresa devono coincidere con la richiesta e con l'anagrafica. Non e un booking nativo della landing.
+
+Verifiche: 14 test JavaScript per consenso, origini, retry, conferma server, popup bloccati, errori e ricarica; check segreti, audit produzione, build e check del consenso. Backend: risoluzione degli slug di tutte le imprese tramite prenotazione canonica e categoria, senza lista del pilot. Nessuna migrazione anagrafica o modifica dei permessi del calendario.
