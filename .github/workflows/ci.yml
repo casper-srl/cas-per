@@ -53,6 +53,8 @@ jobs:
           test -f dist/promo-case-funerarie/index.html
           test -f dist/lp/monitor-structure-demo/email/index.html
           test -f dist/lp/monitor-structure-demo/whatsapp/index.html
+          test -f dist/offerta-dedicata/privacy/index.html
+          test -f dist/offerta-dedicata/consent-config.json
           test "$(jq -r .commit dist/version.json)" = "$EXPECTED_COMMIT"
 
   docker:
