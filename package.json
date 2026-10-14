@@ -1,6 +1,6 @@
 {
   "name": "cas-per-website",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "description": "Sito web cas-per.it",
   "private": true,
   "type": "module",

@@ -42,7 +42,11 @@ async function browser({ configStatus = 200, start, append } = {}) {
   const dispatch = (event, detail) => listeners[event]?.forEach(handler => handler(detail));
   const preference = async (value, callback = 'onPreferenceExpressedOrNotNeeded') => { context._iub.csConfiguration.callback[callback](value); await settle(); };
   const tick = async (delay, ms = delay) => { now += ms; timers.filter(timer => timer.delay === delay).forEach(timer => timer.handler()); await settle(); };
-  const click = async (kind, focus) => { dispatch('click', { target: new Element(kind, focus), preventDefault() { throw new Error('Navigation must remain enabled'); } }); await settle(); };
+  const click = async (kind, focus) => {
+    dispatch('click', { target: new Element(kind, focus), preventDefault() { throw new Error('Navigation must remain enabled'); } });
+    if (kind === 'booking') dispatch('landing:booking-open', { detail: { source: { integrazione: 'iol_integration', 'nuovo-sito': 'new_website' }[focus] || 'generic' } });
+    await settle();
+  };
   return { requests, beacons, nodes, context, document, preference, tick, click, dispatch };
 }
 test('no tracking before choice, rejection, marketing-only consent or absent CMP', async () => {
@@ -52,6 +56,13 @@ test('no tracking before choice, rejection, marketing-only consent or absent CMP
   assert.equal(b.requests.length, 0); assert.equal(b.beacons.length, 0);
   const broken = await browser({ configStatus: 503 }); await broken.tick(5000);
   assert.equal(broken.requests.length, 0); assert.equal(broken.nodes.filter(n => n.tag === 'script').length, 0);
+});
+
+test('the email step and unrecognized origins are not calendar opens', async () => {
+  const b = await browser(); await b.preference({ consent: true });
+  b.dispatch('click', { target: new b.context.Element('booking', 'nuovo-sito') });
+  b.dispatch('landing:booking-open', { detail: { source: 'arbitrary' } }); await b.tick(5000);
+  assert.equal(b.requests.flatMap(r => r.events || []).filter(e => e.type === 'booking_open').length, 0);
 });
 test('saved measurement consent automatically starts once and records page view', async () => {
   const b = await browser();

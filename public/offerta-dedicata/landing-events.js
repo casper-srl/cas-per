@@ -64,8 +64,11 @@
     const source = { integrazione: 'iol_integration', 'nuovo-sito': 'new_website' }[target.dataset.focus] || 'generic';
     if (target.matches('a[href^="tel:"]')) { record('phone_click', source); flush(); }
     else if (target.matches('[data-whatsapp]')) { record('whatsapp_click', source); flush(); }
-    else if (target.matches('[data-book]')) { record('booking_open', source); flush(); }
   }, true);
+  document.addEventListener('landing:booking-open', event => {
+    const source = event.detail?.source;
+    if (['iol_integration', 'new_website', 'generic'].includes(source)) { record('booking_open', source); flush(); }
+  });
   addEventListener('scroll', scroll, { passive: true });
   setInterval(() => {
     if (!visit?.session) return;
