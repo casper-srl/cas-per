@@ -18,12 +18,12 @@ async function browser({ configStatus = 200, start, append } = {}) {
     matches(selector) { return { phone: 'a[href^="tel:"]', whatsapp: '[data-whatsapp]', booking: '[data-book]' }[this.kind] === selector; }
   }
   const document = {
-    currentScript: { dataset: { endpoint: '/offerta-dedicata/events', slug: 'guerra' } },
+    currentScript: { dataset: { endpoint: '/offerta-dedicata/events', slug: 'guerra' } }, baseURI: 'https://www.cas-per.it/offerta-dedicata/guerra/',
     documentElement: { scrollHeight: 2000 }, visibilityState: 'visible', hasFocus: () => true,
     addEventListener: listen, createElement: tag => ({ tag, style: {} }),
     querySelector: () => ({ after: node => nodes.push(node) }), head: { append: node => nodes.push(node) }
   };
-  const context = vm.createContext({ document, crypto: webcrypto, Element, Uint8Array, Date, Blob,
+  const context = vm.createContext({ document, crypto: webcrypto, Element, Uint8Array, Date, Blob, URL,
     innerHeight: 500, scrollY: 0, performance: { now: () => now },
     addEventListener: listen, setInterval: (handler, delay) => timers.push({ handler, delay }),
     navigator: { sendBeacon: (url, body) => { beacons.push(body); return true; } },
@@ -60,6 +60,7 @@ test('saved measurement consent automatically starts once and records page view'
   assert.equal(b.requests.filter(r => r.action === 'start').length, 1);
   assert.equal(b.requests[1].events[0].type, 'page_view'); assert.equal(b.requests[0].slug, 'guerra');
   assert.equal(b.nodes.filter(n => n.tag === 'script').length, 1);
+  assert.equal(b.context._iub.csConfiguration.cookiePolicyUrl, 'https://www.cas-per.it/offerta-dedicata/privacy/');
   assert.ok(!b.nodes.some(n => /Avvia test/.test(n.innerHTML || '')));
 });
 test('CTA sources and scroll thresholds remain distinct without blocking links', async () => {

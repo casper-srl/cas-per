@@ -83,7 +83,7 @@
   });
   const notice = document.createElement('p');
   notice.style.cssText = 'font:12px/1.6 system-ui;max-width:1100px;margin:0 auto;padding:20px 24px 100px;color:#596852';
-  notice.innerHTML = 'Se acconsenti alla misurazione, Cas-Per registra nel proprio CRM la visita, il tempo attivo, lo scorrimento e i clic, associandoli all’impresa indicata in questa pagina. Puoi cambiare scelta nelle <a class="iubenda-cs-preferences-link" href="#" style="text-decoration:underline">preferenze privacy</a>. <a href="https://www.iubenda.com/privacy-policy/88572891" target="_blank" rel="noopener" style="text-decoration:underline">Informativa privacy</a>.';
+  notice.innerHTML = 'Se acconsenti alla misurazione, Cas-Per registra nel proprio CRM la visita, il tempo attivo, lo scorrimento e i clic, associandoli all’impresa indicata in questa pagina. Puoi cambiare scelta nelle <a class="iubenda-cs-preferences-link" href="#" style="text-decoration:underline">preferenze privacy</a>. <a href="/offerta-dedicata/privacy/" target="_blank" rel="noopener" style="text-decoration:underline">Informativa privacy</a>.';
   document.querySelector('.site-footer')?.after(notice);
   fetch('/offerta-dedicata/consent-config.json').then(response => {
     if (!response.ok) throw new Error('Configurazione consenso non disponibile');
@@ -92,6 +92,8 @@
     window._iub = window._iub || [];
     window._iub.csConfiguration = {
       siteId: config.iubendaSiteId, cookiePolicyId: config.iubendaPolicyId, lang: 'it',
+      cookiePolicyUrl: new URL('/offerta-dedicata/privacy/', document.baseURI).href,
+      privacyPolicyUrl: new URL('/offerta-dedicata/privacy/', document.baseURI).href,
       purposes: '1,2,3,4,5', perPurposeConsent: true, consentOnContinuedBrowsing: false,
       floatingPreferencesButtonDisplay: 'bottom-right', storage: { useSiteId: true },
       banner: { acceptButtonDisplay: true, customizeButtonDisplay: true, rejectButtonDisplay: true, position: 'float-top-center' },
