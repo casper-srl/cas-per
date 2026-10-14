@@ -1,6 +1,6 @@
-# Testo della landing per approvazione Cas-Per
+# Testo della landing approvato da Cas-Per
 
-Stato: bozza tecnica, non pubblicata. `tracking-consent.md` richiede l'approvazione Cas-Per dei testi legali e delle finalita dichiarate in iubenda. La policy pubblica attuale elenca Google Analytics 4 nella sezione Statistica; non basta questo a confermare che descriva la misurazione diretta associata all'impresa nel CRM.
+Approvazione del testo e della raccolta ricevuta da Andrea il 14 ottobre 2026: "Ok per iubenda". Aggiornamento della policy e pubblicazione ancora da completare: il pannello iubenda richiede l'accesso all'account che gestisce cas-per.it. `tracking-consent.md` richiede l'approvazione Cas-Per dei testi legali e delle finalita dichiarate in iubenda. La policy pubblica attuale elenca Google Analytics 4 nella sezione Statistica; non basta questo a confermare che descriva la misurazione diretta associata all'impresa nel CRM.
 
 ## Testo aggiunto dopo il footer
 
