@@ -1,5 +1,19 @@
 # Prenotazioni reali sulla landing
 
+## Rilascio Calendly Free 1.0.36, 15 ottobre 2026
+
+Il ramo `codex/landing-calendly-booking` sostituisce il booking Google esterno con il widget ufficiale Calendly nella modale approvata. Il programma pubblico resta quello dell'account Annunci Funebri, evento di 30 minuti con Giuliano, Google Meet, lunedi-venerdi 10-13 e 15-18 nel fuso italiano. L'evento e le notifiche sono in italiano; Notetaker è escluso dalle call Calendly. Le sezioni Google sottostanti descrivono il flusso precedente.
+
+Il pulsante avvia una richiesta operativa su Cas-Per Sales e carica il widget soltanto dopo la risposta del server. Nome ed email si compilano una sola volta in Calendly. Il widget invia un codice opaco e l'origine nei parametri UTM, senza slug, ID CRM o token di verifica. L'origine dei box 01/02/generica resta distinta; passando a un'altra proposta prima del booking si crea un nuovo tentativo. Dopo il booking si conserva il tentativo originale per evitare una seconda prenotazione.
+
+Il parent accetta eventi soltanto dall'iframe attivo con origine Calendly. Il callback `event_scheduled` avvia la verifica dei riferimenti evento/invitato sul server; non rappresenta una conferma verificata in sé. Il ringraziamento con data/ora arriva solo dalla risposta `confirmed`. La verifica si riprende dopo una ricarica mediante sessionStorage per pagina, senza nomi o email. Il reader server e il job periodico recuperano il booking anche dopo la chiusura della pagina. La chiave API rimane soltanto nel backend.
+
+Il parent gestisce il messaggio `page_height` del widget, controllando origine, finestra e dimensione, per evitare un secondo scorrimento interno. La modale occupa lo schermo sul telefono; il banner cookie Calendly resta disponibile. Il booking funziona senza consenso alla misurazione; `landing:booking-open` viene emesso solo quando il programma Calendly è effettivamente visibile, con l'origine della richiesta. Il collector rifiuta ancora conferme dichiarate dal browser.
+
+Le suite automatiche usano emulatore locale e trasporto Calendly simulato. Il 15 ottobre è riuscita anche la prova con API e widget reali: prenotazione dell'operatore per Guerra dal Box 01, 16 ottobre 2026 11:00-11:30 Europe/Rome, una sola nota nel Diario emulato e ringraziamento finale con data/ora confermato dall'operatore. I vecchi appuntamenti privi di correlazione restano esclusi.
+
+Rilascio coordinato autorizzato il 15 ottobre: backend booking e sincronizzazione con segreto gestito, sito/asset/informativa 1.0.36 e infine `landingPage` con la nuova revisione degli asset. Mantenere i vecchi endpoint Google per le pagine in cache. Verificare in produzione pagina generica, fallback, origini 01/02 e conferma della nuova prenotazione nel Diario reale. Il collaudo locale non costituisce una scrittura nel CRM di produzione.
+
 La proposta generica e tutte le imprese del pilot usano un solo programma Google Calendar di AnnunciFunebri. Il link pubblico e quello incorporato sono gestiti da Google; `public/offerta-dedicata/interaction.js` contiene l'URL della pagina specifica, senza credenziali.
 
 Configurazione autorizzata il 14 ottobre 2026: appuntamenti di 30 minuti con Giuliano, lunedi-venerdi 10:00-13:00 e 15:00-18:00, fuso Europe/Rome. Gli eventi occupati del medesimo calendario escludono gli slot. Restano i default Google di anticipo minimo 4 ore e finestra 60 giorni. Google genera il link Meet, invia l'invito e un promemoria un giorno prima. Il modulo richiede nome, cognome, email e impresa.
