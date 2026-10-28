@@ -1,5 +1,11 @@
 # Landing dedicata: avvio automatico degli eventi
 
+## Presentazione 1.0.38, approvata il 28 ottobre 2026
+
+Gli stili proposti sostituiscono il ritratto ad arco con una scheda da videocall e rendono rettangolari le miniature di Giuliano. Usano la foto originale, senza colorazione artificiale. Il coordinamento con i nuovi template di casper-sales rimuove le etichette di bozza e le date decorative; Filo diretto non è incluso. Nessuna modifica al booking, al consenso o al tracker.
+
+Andrea ha approvato grafica, pulizia e rilascio il 28 ottobre 2026, chiedendo anche la rimozione della riga aggiuntiva in fondo al footer. Per il rilascio coordinato distribuire prima gli asset del sito e poi la sola Function `landingPage` con riferimenti 1.0.38. Il merge sul ramo di produzione del sito può avviare il deploy automatico: una PR non autorizza il merge. Il rollback ripristina insieme template e stili precedenti; non richiede modifiche ai dati.
+
 La sezione `/offerta-dedicata/` viene resa dinamicamente dalla Function `landingPage` del progetto caspersales-ea7cc, regione europe-west1. Nginx verifica TLS e serve dal sito gli asset sotto `public/offerta-dedicata/`. Nessuna copia HTML viene creata per impresa: Firebase legge il profilo CRM tramite slug e sceglie il template base o IOL.
 
 Lotto iniziale: `/offerta-dedicata/guerra/`, `battaglia/`, `zani/`, `pini/`, `buffoli/`. Senza slug riconosciuto viene mostrata la base. La funzione non restituisce recapiti privati, ID CRM o dati commerciali. Pagine `no-store`, `noindex, nofollow` per il collaudo.
