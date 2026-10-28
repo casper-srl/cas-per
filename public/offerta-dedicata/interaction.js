@@ -132,6 +132,7 @@ window.addEventListener('focus', () => { if (dialog.open) pollBooking(); });
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && dialog.open) pollBooking(); });
 document.querySelectorAll('.preview-calendar-note').forEach(note => { note.textContent = 'Disponibilità reale · prenotazione con Calendly'; });
 if (attempt) { dialog.showModal(); showAgenda().catch(() => { status.textContent = 'L’agenda non è disponibile. Riprova oppure contatta Giuliano.'; }); }
+else if (window.location.hash === '#prenota') document.querySelector('[data-book]')?.click();
 
 document.querySelectorAll('[data-whatsapp]').forEach(a=>a.href='https://wa.me/393408384217?text='+encodeURIComponent('Ciao Giuliano, vorrei parlare del sito e dei servizi digitali per la mia impresa con AnnunciFunebri.it.'));
 const answers={sito:'Partiamo dal tuo sito: vediamo come racconta la tua impresa e come renderlo più utile alle famiglie.',necrologi:'Guardiamo insieme necrologi, messaggi di cordoglio e libretto: un servizio che accompagna le famiglie.',spazi:'Partiamo dai tuoi spazi: vediamo le possibilità di monitor, raccolta dei cordogli e streaming riservato.'};
