@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM public.ecr.aws/docker/library/node:24.16-alpine3.24 AS build
+FROM mirror.gcr.io/library/node:24.16-alpine3.24 AS build
 WORKDIR /app
 
 ARG PUBLIC_BUILD_SHA=local
