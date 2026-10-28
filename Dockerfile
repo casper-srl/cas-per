@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM public.ecr.aws/docker/library/node:24.16-alpine3.24 AS build
+FROM mirror.gcr.io/library/node:24.16-alpine3.24 AS build
 WORKDIR /app
 
 ARG PUBLIC_BUILD_SHA=local
@@ -12,7 +12,7 @@ RUN npm ci
 COPY . .
 RUN NODE_ENV=production npm run build
 
-FROM public.ecr.aws/nginx/nginx:stable-alpine AS runtime
+FROM mirror.gcr.io/library/nginx:stable-alpine AS runtime
 
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
